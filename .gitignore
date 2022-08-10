@@ -1,0 +1,9 @@
+
+# debug project
+DebugIosProject/*
+!DebugIosProject
+# bundle cache
+vendor
+
+# idea
+.idea/sonarlint
