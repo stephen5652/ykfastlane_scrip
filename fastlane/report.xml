@@ -5,32 +5,52 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000437">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000511">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000209">
+      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000277">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: default_platform" time="0.000247">
+      <testcase classname="fastlane.lanes" name="2: default_platform" time="0.000255">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: flutter_archive_yk" time="0.000523">
+      <testcase classname="fastlane.lanes" name="3: flutter_archive_yk" time="0.000721">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: cocoapods" time="3.322676">
+      <testcase classname="fastlane.lanes" name="4: cocoapods" time="3.578125">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: build_app" time="0.683891">
+      <testcase classname="fastlane.lanes" name="5: build_app" time="96.220854">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: analyze_ios_ipa" time="0.843541">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: last_commit_yk" time="0.087804">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="8: fir_cli_yk" time="25.085749">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="9: analyze_ios_ipa" time="0.682808">
         
       </testcase>
     

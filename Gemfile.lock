@@ -366,7 +366,7 @@ PLATFORMS
   x86_64-darwin-21
 
 DEPENDENCIES
-  bundler (= 2.3.6)
+  bundler
   cocoapods (= 1.11.3)
   debase
   fastlane

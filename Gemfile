@@ -13,7 +13,7 @@ eval_gemfile(plugins_path) if File.exist?(plugins_path)
 group :debug do
   gem 'ruby-debug-ide', '0.7.3'
   gem 'debase'
-  gem 'bundler', '2.3.6'
+  gem 'bundler'
 
 end
 
