@@ -69,7 +69,7 @@ desc "" "
       versions:[非必需] 迁移的目标版本，多个的时候用空格\' \'隔开， 默认遍历尝试迁移所有的版本，比较耗时
       wxwork_access_token:[非必需] 用于将任务结果传给企业微信
 
-    command example: ykfastlane github_pod_transfer orignal_url:'https://github.com/AFNetworking/AFNetworking.git' ykgitlab_url:'http://gitlab.yeahka.com/App/iOS/GitHubComponents/AFNetworking.git' versions:\"1.0.0 1.3.4 1.2.5\"
+    command example: ykfastlane github_pod_transfer orignal_url:'https://github.com/AFNetworking/AFNetworking.git' ykgitlab_url:'http://gitlab.xxxxx.com/App/iOS/GitHubComponents/AFNetworking.git' versions:\"1.0.0 1.3.4 1.2.5\"
 " ""
 lane :github_pod_transfer do |options|
   puts "git hub pod transfer:#{options}"
@@ -152,7 +152,7 @@ def transfer_versions(podObj)
   #   project_path: podObj.component_dir,
   #   remote_destioation_url: podObj.remote_ykgitlab,
   #   remote_destioation_name: $remote_ykname,
-  #   repo_name: "yeahka-app-ios-ykgithubspecs",
+  #   repo_name: "xxxxx-app-ios-ykgithubspecs",
   # )
 
   tags.each do |one_version|
@@ -161,7 +161,7 @@ def transfer_versions(podObj)
       project_path: podObj.component_dir,
       remote_destioation_url: podObj.remote_ykgitlab,
       remote_destioation_name: $remote_ykname,
-      repo_name: "yeahka-app-ios-ykgithubspecs",
+      repo_name: "xxxx-app-ios-ykgithubspecs",
     )
   end
 

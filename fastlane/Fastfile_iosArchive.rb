@@ -371,7 +371,7 @@ def archive_ios_func(options)
 
   ipa_path = File.join(path_root, path_output, "#{scheme_name}.ipa")
   #准备上传ipa包
-  # {:author=>"stephen.chen", :author_email=>"stephenchen@yeahka.com", :message=>"Merge branch 'master' into ID1024734\n", :commit_hash=>"4d6afbae52c86a79ab3e9f0f87eb55569f9cbd1a", :abbreviated_commit_hash=>"4d6afba"}
+  # {:author=>"stephen.chen", :author_email=>"stephenchen@xxxxx.com", :message=>"Merge branch 'master' into ID1024734\n", :commit_hash=>"4d6afbae52c86a79ab3e9f0f87eb55569f9cbd1a", :abbreviated_commit_hash=>"4d6afba"}
   commit = last_commit_yk(work_path: File.expand_path(options[:xcworkspace]))
   UI.important("last commit info:#{commit}")
 

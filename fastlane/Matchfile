@@ -1,4 +1,4 @@
-git_url("http://gitlab.yeahka.com/StephenTest/YKCertificateProfile.git")
+git_url("http://gitlab.xxxxx.com/StephenTest/YKCertificateProfile.git")
 storage_mode("git")
 type("enterprise") # The default type, can be: appstore, adhoc, enterprise or development
 team_id("EU9LD65DB5")
