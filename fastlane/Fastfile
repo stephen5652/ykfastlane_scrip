@@ -8,6 +8,7 @@ before_all do |lane, options|
   # 路径类参数,在此处变为绝对路径
   @script_run_path = File.expand_path(options[:script_run_path])
   options[:script_run_path] = @script_run_path
+  puts "script_run_path:#{@script_run_path}"
   Dir.chdir(@script_run_path) do
     options[:xcworkspace] = options[:xcworkspace].blank? ? @script_run_path : File.expand_path(options[:xcworkspace])
     options[:flutter_directory] = options[:flutter_directory].blank? ? @script_run_path : File.expand_path(options[:flutter_directory])

@@ -5,9 +5,6 @@ default_platform(:ios)
 @wxwork_webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send"
 @script_run_path = ""
 
-require 'rails'
-require 'fastlane'
-
 desc "" "
     打iOS测试包,并上传蒲公英,发送结果给企业微信群
     参数: 
@@ -308,7 +305,6 @@ def find_workspace_func(workspace_file_or_dir)
 end
 
 def archive_ios_func(options)
-  analyze_ipa_func('/Users/stephen/iosYeahArchive/STLoveMessages_20220809_2009_ad-hoc_temp/output/STLoveMessages.ipa')
   #检验必要的key
   UI.user_error!("required key: scheme") if options[:scheme].blank?
   UI.user_error!("required key: xcworkspace") if options[:xcworkspace].blank?
