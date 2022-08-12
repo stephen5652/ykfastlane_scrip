@@ -4,6 +4,6 @@ DebugIosProject/*
 !DebugIosProject
 # bundle cache
 vendor
-
+.bundle
 # idea
 .idea/sonarlint
