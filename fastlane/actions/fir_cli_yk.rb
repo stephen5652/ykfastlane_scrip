@@ -1,5 +1,5 @@
 require "fastlane/action"
-require 'fir'
+require 'fir-cli'
 # require 'byebug'
 
 module Fastlane
