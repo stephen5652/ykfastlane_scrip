@@ -11,6 +11,6 @@ before_all do |lane, options|
   puts "script_run_path:#{@script_run_path}"
   Dir.chdir(@script_run_path) do
     options[:xcworkspace] = options[:xcworkspace].blank? ? @script_run_path : File.expand_path(options[:xcworkspace])
-    options[:flutter_directory] = options[:flutter_directory].blank? ? @script_run_path : File.expand_path(options[:flutter_directory])
+    options[:flutter_directory] = options[:flutter_directory].blank? ? "" : File.expand_path(options[:flutter_directory])
   end
 end

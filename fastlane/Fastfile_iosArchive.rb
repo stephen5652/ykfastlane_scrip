@@ -61,7 +61,7 @@ desc "" "
     command example: ykfastlane archive_fire scheme:ShuabaoQ fir_api_token:\"fir_api_token\" wxwork_access_token:\"wxworktokem\" note:\"note\" xcworkspace:\"~/Desktop/ShuaBao\" cocoapods:1 flutter_directory:\"flutter_directory\"
 " ""
 lane :archive_fire do |options|
-  puts "archive_pgyer options:#{options}"
+  puts "archive_fire options:#{options}"
 
   archive_info_hash = {}
   Dir.chdir(@script_run_path) do
