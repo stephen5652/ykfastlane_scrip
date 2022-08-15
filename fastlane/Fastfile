@@ -1,12 +1,13 @@
 default_platform(:ios)
 
 require "json"
+
 import "./Fastfile_iosArchive.rb"
 import "./FastFile_github_podTransfer.rb"
 
 before_all do |lane, options|
   # 路径类参数,在此处变为绝对路径
-  @script_run_path = File.expand_path(options[:script_run_path])
+  @script_run_path = File.expand_path(Dir.pwd)
   options[:script_run_path] = @script_run_path
   puts "script_run_path:#{@script_run_path}"
   Dir.chdir(@script_run_path) do
@@ -14,3 +15,8 @@ before_all do |lane, options|
     options[:flutter_directory] = options[:flutter_directory].blank? ? "" : File.expand_path(options[:flutter_directory])
   end
 end
+
+error do |lane, exception|
+  clear_buile_temp
+end
+

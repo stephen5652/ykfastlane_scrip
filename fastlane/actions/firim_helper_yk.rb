@@ -8,7 +8,7 @@ module Fastlane
 
     class FirimHelperYkAction < Action
       def self.run(config)
-        UI.message("paramaters:#{params}")
+        UI.message("paramaters:#{config}")
 
         require "firim"
         config.load_configuration_file("Firimfile")

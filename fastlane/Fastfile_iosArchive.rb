@@ -1,9 +1,16 @@
 #!/usr/bin/env ruby
 #
-default_platform(:ios)
+
+require_relative "functions/archive_defines"
+require 'fastlane'
 
 @wxwork_webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send"
 @script_run_path = ""
+
+@archive_para = YkArchiveCi::YkArchiveParamater.new()
+@ipa_info = YkArchiveCi::YkIpaInfo.new()
+@git_commit_info = YkArchiveCi::YkGitCommitInfo.new()
+@release_note = YkArchiveCi::YkReleaseNoteInfo.new()
 
 desc "" "
     打iOS测试包,并上传蒲公英,发送结果给企业微信群
@@ -312,18 +319,8 @@ def archive_ios_func(options)
   UI.user_error!("No workspace or Multiple at path:#{options[:xcworkspace]}") if workspace_file.blank?
 
   options[:xcworkspace] = workspace_file
-  scheme_name = options[:scheme]
-  # app-store, validation,ad-hoc, package,enterprise, development, developer-id, mac-application
-  export_method = options.has_key?(:export) ? options[:export] : "enterprise"
-
-  time = Time.new.strftime("%Y%m%d_%H%M") #获取时间格式
-  path_root = File.join(File.expand_path("~/iosYeahArchive"), "#{scheme_name}_#{time}_#{export_method}_temp")
-  path_archvie = "#{scheme_name}.xcarchive"
-  path_build = "biuld"
-  path_output = "output"
-  UI.important("Production root path:#{path_root}")
-  UI.important("Production archive path:#{path_archvie}")
-  UI.important("Archive workspace:#{options[:xcworkspace]}")
+  export_method = options[:export].blank? ? "enterprise" : options[:export]
+  options[:export] = export_method
 
   flutter_exist = options[:flutter_directory].blank? ? false : true
   flutter_archive_yk(flutter_directory: options[:flutter_directory], skip_empty: true) if flutter_exist
@@ -336,75 +333,65 @@ def archive_ios_func(options)
     UI.important("no run pod install")
   end
 
-  #export_options
-  build_app(
-    workspace: options[:xcworkspace],
-    scheme: scheme_name, #项目名称
-    clean: true,
-    output_name: scheme_name,
-    export_method: export_method,
-    archive_path: File.join(path_root, path_archvie),
-    build_path: File.join(path_root, path_build),
-    output_directory: File.join(path_root, path_output),
-    #       skip_profile_detection: true,
-    export_options: {
-      compileBitcode: false, #关闭bitcode rebuild
-      stripSwiftSymbols: false, #此字段是为了节省导出包的时间, 对于swift混编项目,次字段会导致到处包的时间大大延长.
-    },
-    export_xcargs: "-allowProvisioningUpdates",
-  )
+  @archive_para.scheme = options[:scheme]
+  @archive_para.workspace = workspace_file
+  @archive_para.export_method = export_method
+
+  build_app(@archive_para.build_paramaters())
 
   #解析ipa && 重命名ipa输出路径
   ipa_info_hash = analyze_ipa_func(lane_context[:IPA_OUTPUT_PATH])
+  @ipa_info.config_info(ipa_info_hash)
+
   app_name = ipa_info_hash[:app_info_name]
   app_version = ipa_info_hash[:app_info_versionnumber]
   app_build = ipa_info_hash[:app_info_buildnumber]
   app_size = ipa_info_hash[:app_info_size]
 
-  version_build = app_version + "_#{app_build}"
-  path_rename = File.join(File.expand_path("~/iosYeahArchive"), "#{scheme_name}_#{version_build}_#{export_method}_#{time}")
-  Actions.sh("mv #{path_root} #{path_rename}")
+  path_rename = @archive_para.output_final_path(@ipa_info.version_build_des)
+  Actions.sh("mv #{@archive_para.output_root_path_temp} #{path_rename}")
   path_root = path_rename
+  ipa_path = @archive_para.ipa_final_path
 
   #创建 tag
   # create_tag_for_archive(scheme_name, app_version, app_build, time)
 
-  ipa_path = File.join(path_root, path_output, "#{scheme_name}.ipa")
   #准备上传ipa包
   # {:author=>"stephen.chen", :author_email=>"stephenchen@xxxxx.com", :message=>"Merge branch 'master' into ID1024734\n", :commit_hash=>"4d6afbae52c86a79ab3e9f0f87eb55569f9cbd1a", :abbreviated_commit_hash=>"4d6afba"}
   commit = last_commit_yk(work_path: File.expand_path(options[:xcworkspace]))
-  UI.important("last commit info:#{commit}")
+  @git_commit_info.config_commit_info(commit)
+  UI.important("last commit info:#{@git_commit_info.message}")
 
   release_note = options.has_key?(:note) ? options[:note] : "ios 测试包"
   update_note = "" "
   note:#{release_note}
   version:#{app_version}-#{app_build}
-  archive_date:#{time}
-  commit_id:#{commit[:abbreviated_commit_hash]}
-  commit_message:#{commit[:message]}
+  archive_date:#{@archive_para.archive_time}
+  commit_id:#{@git_commit_info.abbreviated_commit_hash}
+  commit_message:#{@git_commit_info.message}
   " ""
-
-  uppload_options = {
+  upload_options = {
     ipa: ipa_path,
     app_name: app_name,
     version_number: app_version,
     build_number: app_build,
     app_version_build: "#{app_version}(#{app_build})",
     app_size: app_size,
-    archive_date: time,
+    archive_date: @archive_para.archive_time,
     note: update_note,
     commit_id: commit[:abbreviated_commit_hash],
     commit_message: commit[:message],
     release_note: release_note,
   }
+  @release_note.config_info(upload_options)
 
-  options.merge!(uppload_options)
+  options.merge!(upload_options)
   # 存储 ipa 路径和 更新日志, 方便下次重新上传
   log_cache_path = File.join(path_root, "upload_paramater.json")
   file = File.new(log_cache_path, "w+")
-  File.write(log_cache_path, JSON.dump(uppload_options))
+  File.write(log_cache_path, JSON.dump(upload_options))
 
-  return uppload_options
+  return upload_options
 end
 
 # 创建tag
@@ -474,16 +461,16 @@ end
 def wx_message_func(access_token, message_hash)
   puts "web_hook:#{@wxwork_webhook}"
 
-  if access_token.blank? 
+  if access_token.blank?
     UI.important("access_token is empty, no send message to wechat, but work still success")
     return 0
   end
-  
+
   wxwork_notifier_yk(
     wxwork_webhook: @wxwork_webhook,
     wxwork_access_token: access_token,
     msg_title: message_hash[:msg_title],
-    msg_app_name:  message_hash[:msg_app_name],
+    msg_app_name: message_hash[:msg_app_name],
     msg_app_version: message_hash[:msg_app_version],
     msg_app_size: message_hash[:msg_app_size],
     msg_app_url: message_hash[:msg_app_url],
@@ -511,6 +498,15 @@ def analyze_ipa_func(ipa_path)
 
   UI.important("app_info:#{info_options}")
   return info_options
+end
+
+lane :clear_buile_temp do |options|
+  UI.message("work failed, should remove temp dir:#{@archive_para.output_root_path_temp}")
+  if Dir.exist?(@archive_para.output_root_path_temp)
+    FileUtils.remove_dir(@archive_para.output_root_path_temp, true)
+  else
+    UI.message("temp path not existed:#{@archive_para.output_root_path_temp}")
+  end
 end
 
 desc "private lane, cannot be used. Just used for developing to testing some action."
