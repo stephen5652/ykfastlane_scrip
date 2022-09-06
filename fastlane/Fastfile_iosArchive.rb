@@ -328,7 +328,7 @@ def archive_ios_func(options)
   if flutter_exist || (options.has_key?(:cocoapods) && Integer(options[:cocoapods]) == 1)
     podfile_dir = File.dirname(options[:xcworkspace])
     UI.important("Shoudle cocoapods install: podfile_dir:#{podfile_dir}")
-    cocoapods(verbose: true, podfile: podfile_dir)
+    cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false)
   else
     UI.important("no run pod install")
   end
