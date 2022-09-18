@@ -56,6 +56,29 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     command example: ykfastlane archive_fire scheme:ShuabaoQ fir_api_token:"fir_api_token" wxwork_access_token:"wxworktokem" note:"note" xcworkspace:"~/Desktop/ShuaBao" cocoapods:1 flutter_directory:"flutter_directory"
 
 
+### archive_tf
+
+```sh
+[bundle exec] fastlane archive_tf
+```
+
+
+    打iOS测试包,并上传TF,发送结果给企业微信群
+    参数:
+      scheme: [必需]
+      user_name: [必需] apple id
+      pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+
+      note: [可选] 测试包发包信息
+      xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
+      cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
+      flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
+      wxwork_access_token: [可选] 企业微信机器人
+
+
+    command example: ykfastlane archive_tf scheme:ShuabaoQ user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note" xcworkspace:"~/Desktop/ShuaBao" cocoapods:1 flutter_directory:"flutter_directory"
+
+
 ### yk_install_mobileprovision_enterprise
 
 ```sh

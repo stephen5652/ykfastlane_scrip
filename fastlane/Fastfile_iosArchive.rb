@@ -94,6 +94,50 @@ lane :archive_fire do |options|
 end
 
 desc "" "
+    打iOS测试包,并上传TF,发送结果给企业微信群
+    参数:
+      scheme: [必需]
+      user_name: [必需] apple id
+      pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+
+      note: [可选] 测试包发包信息
+      xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
+      cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
+      flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
+      wxwork_access_token: [可选] 企业微信机器人
+
+
+    command example: ykfastlane archive_tf scheme:ShuabaoQ user_name:\"xxxx.com\" pass_word:\"xxx-xxx-xxx-xxx\" wxwork_access_token:\"wxworktokem\" note:\"note\" xcworkspace:\"~/Desktop/ShuaBao\" cocoapods:1 flutter_directory:\"flutter_directory\"
+" ""
+lane :archive_tf do |options|
+  puts "archive_fire options:#{options}"
+
+  options[:export] = 'app-store'
+  archive_info_hash = {}
+  Dir.chdir(@script_run_path) do
+    archive_info_hash = archive_ios_func(options)
+  end
+
+  tf_result = up_test_flight_func(options[:ipa], options[:user_name], options[:pass_word])
+  if tf_result == true
+    title = "TF app \"#{archive_info_hash[:app_name]}\" new version."
+    message_hash = {
+      msg_title: title,
+      msg_app_name: archive_info_hash[:app_name],
+      msg_app_version: archive_info_hash[:app_version_build],
+      msg_app_size: archive_info_hash[:app_size],
+      commit_id: archive_info_hash[:commit_id],
+      commit_message: archive_info_hash[:commit_message],
+      release_note: archive_info_hash[:release_note],
+    }
+
+    wx_message_func(options[:wxwork_access_token], message_hash)
+  else
+    UI.user_error!("Archive TF failed")
+  end
+end
+
+desc "" "
     安装mobileprovision 文件.
     描述: 
     1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;
@@ -282,6 +326,7 @@ def yk_install_cetificates(cer_dir, pw_cer, pw_chain)
 end
 
 after_all do |lane, options|
+  clear_buile_temp
 end
 
 #寻找xcworkspace
@@ -325,7 +370,7 @@ def archive_ios_func(options)
   flutter_archive_yk(flutter_directory: options[:flutter_directory], skip_empty: true) if flutter_exist
   ## 有flutter,则必须 pod install
   if flutter_exist || (options.has_key?(:cocoapods) && Integer(options[:cocoapods]) == 1)
-    podfile_dir = File.dirname(options[:xcworkspace])
+    podfile_dir = options[:xcworkspace]
     UI.important("Shoudle cocoapods install: podfile_dir:#{podfile_dir}")
     cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false)
   else
@@ -402,6 +447,17 @@ def create_tag_for_archive(scheme_name, version_number, build_number, archive_da
   tag_command << "git tag -a #{tag_name} -m #{tag_des}"
   tag_command << " && git push origin #{tag_name}"
   Actions.sh(tag_command)
+end
+
+# 上传包到 test flight
+def up_test_flight_func(ipa_file, user_name, pass_word)
+  result = tf_upload_yk(
+    specify_file_path: ipa_file,
+    user_name: user_name,
+    pass_word: pass_word,
+    verbose: true,
+  )
+  return result
 end
 
 # 上传包到pgyer
