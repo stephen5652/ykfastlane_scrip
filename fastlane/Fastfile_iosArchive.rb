@@ -333,7 +333,7 @@ end
 def find_workspace_func(workspace_file_or_dir)
   cur_path = Dir.pwd()
   puts "cur_path: #{cur_path}"
-  puts "find fils at path: #{workspace_file_or_dir}"
+  puts "find files at path: #{workspace_file_or_dir}"
   result = ""
   if File.extname(workspace_file_or_dir) == ".xcworkspace"
     if File.exist?(workspace_file_or_dir) == false
@@ -363,6 +363,7 @@ def archive_ios_func(options)
   workspace_file = find_workspace_func(options[:xcworkspace])
   UI.user_error!("No workspace or Multiple at path:#{options[:xcworkspace]}") if workspace_file.blank?
 
+  options[:workspace_file] = workspace_file
   export_method = options[:export].blank? ? "enterprise" : options[:export]
   options[:export] = export_method
 
@@ -371,6 +372,7 @@ def archive_ios_func(options)
   ## 有flutter,则必须 pod install
   if flutter_exist || (options.has_key?(:cocoapods) && Integer(options[:cocoapods]) == 1)
     podfile_dir = options[:xcworkspace]
+    podfile_dir = File.dirname(podfile_dir) if podfile_dir.end_with?(".xcworkspace")
     UI.important("Shoudle cocoapods install: podfile_dir:#{podfile_dir}")
     cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false)
   else
