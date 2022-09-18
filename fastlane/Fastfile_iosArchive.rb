@@ -318,9 +318,19 @@ def archive_ios_func(options)
   workspace_file = find_workspace_func(options[:xcworkspace])
   UI.user_error!("No workspace or Multiple at path:#{options[:xcworkspace]}") if workspace_file.blank?
 
-  options[:xcworkspace] = workspace_file
   export_method = options[:export].blank? ? "enterprise" : options[:export]
   options[:export] = export_method
+
+  if File.exist?(workspace_file) && workspace_file.end_with?(".xcworkspace") # 是 .xcworkspace 文件
+    options[:xcworkspace] = workspace_file
+  else
+    arr = Dir.glob("workspace_file/*.xcworkspace")
+    if arr.length == 1
+      workspace_file = arr.first
+    else
+      UI.user_error!("No workspace or Multiple at path:#{workspace_file}")
+    end
+  end
 
   flutter_exist = options[:flutter_directory].blank? ? false : true
   flutter_archive_yk(flutter_directory: options[:flutter_directory], skip_empty: true) if flutter_exist
@@ -468,9 +478,8 @@ lane :wx_message_notice do |options|
     wxwork_access_token: token,
     msg_title: title,
     release_note: options[:notice_message],
-    )
+  )
 end
-
 
 def wx_message_func(access_token, message_hash)
   puts "web_hook:#{@wxwork_webhook}"
