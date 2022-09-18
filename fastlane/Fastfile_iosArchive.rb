@@ -321,17 +321,6 @@ def archive_ios_func(options)
   export_method = options[:export].blank? ? "enterprise" : options[:export]
   options[:export] = export_method
 
-  if File.exist?(workspace_file) && workspace_file.end_with?(".xcworkspace") # 是 .xcworkspace 文件
-    options[:xcworkspace] = workspace_file
-  else
-    arr = Dir.glob("workspace_file/*.xcworkspace")
-    if arr.length == 1
-      workspace_file = arr.first
-    else
-      UI.user_error!("No workspace or Multiple at path:#{workspace_file}")
-    end
-  end
-
   flutter_exist = options[:flutter_directory].blank? ? false : true
   flutter_archive_yk(flutter_directory: options[:flutter_directory], skip_empty: true) if flutter_exist
   ## 有flutter,则必须 pod install
@@ -523,13 +512,21 @@ def analyze_ipa_func(ipa_path)
   return info_options
 end
 
-lane :clear_buile_temp do |options|
-  UI.message("work failed, should remove temp dir:#{@archive_para.output_root_path_temp}")
-  if Dir.exist?(@archive_para.output_root_path_temp)
-    FileUtils.remove_dir(@archive_para.output_root_path_temp, true)
+lane :clear_buile_temp do
+  temp = @archive_para.output_root_path_temp
+  productRoot = YkArchiveCi::Configs::YKPRODUCT_ROOT_PATH
+
+  if temp.blank? == false && Dir.exist?(temp)
+    if temp.start_with?(productRoot) == false
+      UI.important("Temp path is not in product root, we not clear it:#{temp}")
+    else
+      UI.important("Work failed, remove temp dir:#{temp}")
+      FileUtils.remove_dir(temp, true)
+    end
   else
-    UI.message("temp path not existed:#{@archive_para.output_root_path_temp}")
+    UI.important("Temp path not existed:#{@archive_para.output_root_path_temp}")
   end
+
 end
 
 desc "private lane, cannot be used. Just used for developing to testing some action."

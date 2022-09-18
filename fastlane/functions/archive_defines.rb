@@ -85,7 +85,11 @@ module YkArchiveCi
     end
 
     def output_root_path_temp()
-      File.join(Configs::YKPRODUCT_ROOT_PATH, self.scheme, "temp_#{self.export_method}_#{@build_time_str}")
+      if self.scheme.blank? || self.export_method.blank?
+        ""
+      else
+        File.expand_path(File.join(Configs::YKPRODUCT_ROOT_PATH, self.scheme, "temp_#{self.export_method}_#{@build_time_str}"))
+      end
     end
 
     def archive_time()
@@ -96,7 +100,7 @@ module YkArchiveCi
       v_str = ipa_version.blank? ? "unknownVersion" : ipa_version
       dir_name = "#{self.scheme}_#{v_str}_#{self.export_method}_#{@build_time_str}"
       result = File.join(Configs::YKPRODUCT_ROOT_PATH, [self.scheme, dir_name])
-      @ipa_final_path = File.join(result,["output", "#{self.scheme}.ipa"])
+      @ipa_final_path = File.join(result, ["output", "#{self.scheme}.ipa"])
       result
     end
 

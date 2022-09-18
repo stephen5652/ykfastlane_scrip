@@ -31,6 +31,7 @@
     <orderEntry type="library" scope="PROVIDED" name="babosa (v1.0.4, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="badge (v0.13.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.3.6, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="chunky_png (v1.4.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="claide (v1.1.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cocoapods (v1.11.3, rbenv: 2.7.5) [gem]" level="application" />
