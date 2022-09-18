@@ -466,7 +466,7 @@ lane :wx_message_notice do |options|
     wxwork_webhook: @wxwork_webhook,
     wxwork_access_token: token,
     msg_title: title,
-    release_note: options[:notice_message],
+    msg_detail: options[:notice_message],
   )
 end
 

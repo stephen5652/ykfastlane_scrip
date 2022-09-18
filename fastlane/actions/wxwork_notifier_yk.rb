@@ -34,7 +34,7 @@ see: https://work.weixin.qq.com/api/doc/90000/90136/91770
           c.adapter :net_http
         end
 
-        mark_down_content = "# #{params[:msg_title]}\n"
+        mark_down_content = "# <font color=\"info\">#{params[:msg_title]}</font>\n"
         mark_down_content += "## app: <font color=\"comment\">#{params[:msg_app_name]}</font>\n" unless params[:msg_app_name].blank?
         mark_down_content += "## version: <font color=\"comment\">#{params[:msg_app_version]}</font>\n" unless params[:msg_app_version].blank?
         mark_down_content += "## size: <font color=\"comment\">#{params[:msg_app_size]}</font>\n" unless params[:msg_app_size].blank?
@@ -42,7 +42,8 @@ see: https://work.weixin.qq.com/api/doc/90000/90136/91770
         mark_down_content += "## download: <font color=\"warning\">[下载](#{params[:msg_app_url]})</font>\n" unless params[:msg_app_url].blank?
         mark_down_content += "## commit_id: <font color=\"comment\">#{params[:commit_id]}</font>\n" unless params[:commit_id].blank?
         mark_down_content += "## commit_message: \"#{params[:commit_message]}\"\n" unless params[:commit_message].blank?
-        mark_down_content += "## release_note: #{params[:release_note]}\n"
+        mark_down_content += "## release_note: #{params[:release_note]}\n" unless params[:release_note].blank?
+        mark_down_content += "## detail:\n <font color=\"warning\">#{params[:msg_detail]}</font>\n" unless params[:msg_detail].blank?
         # mark_down_content += "## detail:\n #{params[:msg_content]}\n" if params[:msg_content].blank? == false
 
         wx_paramas_markdown = {
@@ -171,6 +172,10 @@ msg_picurl
                                        optional: true),
           FastlaneCore::ConfigItem.new(key: :release_note,
                                        description: "发版信息", # a short description of this parameter
+                                       is_string: true,
+                                       optional: true),
+          FastlaneCore::ConfigItem.new(key: :msg_detail,
+                                       description: "详情", # a short description of this parameter
                                        is_string: true,
                                        optional: true),
         ]
