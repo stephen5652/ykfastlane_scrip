@@ -121,6 +121,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     command example: ykfastlane re_upload_fir fir_api_token:"1234" wxwork_access_token:"wxwork_key" last_log:"~/xx/x/directory" note:"reupload"
 
 
+### wx_message_notice
+
+```sh
+[bundle exec] fastlane wx_message_notice
+```
+
+
+
 ### clear_buile_temp
 
 ```sh

@@ -458,6 +458,20 @@ def up_fir_func(ipa_file, api_token, update_note)
   }
 end
 
+lane :wx_message_notice do |options|
+  UI.warn("skip notice failed message to enterprise wechat, since not robot token") if options[:wx_notice_token].blank?
+  token = options[:wx_notice_token]
+  title = options[:msg_title].blank? ? "CI work failed" : options[:msg_title]
+
+  wxwork_notifier_yk(
+    wxwork_webhook: @wxwork_webhook,
+    wxwork_access_token: token,
+    msg_title: title,
+    release_note: options[:notice_message],
+    )
+end
+
+
 def wx_message_func(access_token, message_hash)
   puts "web_hook:#{@wxwork_webhook}"
 

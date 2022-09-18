@@ -35,13 +35,13 @@ see: https://work.weixin.qq.com/api/doc/90000/90136/91770
         end
 
         mark_down_content = "# #{params[:msg_title]}\n"
-        mark_down_content += "## app: <font color=\"comment\">#{params[:msg_app_name]}</font>\n"
-        mark_down_content += "## version: <font color=\"comment\">#{params[:msg_app_version]}</font>\n"
-        mark_down_content += "## size: <font color=\"comment\">#{params[:msg_app_size]}</font>\n"
-        mark_down_content += "## url: <font color=\"comment\">#{params[:msg_app_url]}</font>\n"
-        mark_down_content += "## download: <font color=\"warning\">[下载](#{params[:msg_app_url]})</font>\n"
-        mark_down_content += "## commit_id: <font color=\"comment\">#{params[:commit_id]}</font>\n"
-        mark_down_content += "## commit_message: \"#{params[:commit_message]}\"\n"
+        mark_down_content += "## app: <font color=\"comment\">#{params[:msg_app_name]}</font>\n" unless params[:msg_app_name].blank?
+        mark_down_content += "## version: <font color=\"comment\">#{params[:msg_app_version]}</font>\n" unless params[:msg_app_version].blank?
+        mark_down_content += "## size: <font color=\"comment\">#{params[:msg_app_size]}</font>\n" unless params[:msg_app_size].blank?
+        mark_down_content += "## url: <font color=\"comment\">#{params[:msg_app_url]}</font>\n" unless params[:msg_app_url].blank?
+        mark_down_content += "## download: <font color=\"warning\">[下载](#{params[:msg_app_url]})</font>\n" unless params[:msg_app_url].blank?
+        mark_down_content += "## commit_id: <font color=\"comment\">#{params[:commit_id]}</font>\n" unless params[:commit_id].blank?
+        mark_down_content += "## commit_message: \"#{params[:commit_message]}\"\n" unless params[:commit_message].blank?
         mark_down_content += "## release_note: #{params[:release_note]}\n"
         # mark_down_content += "## detail:\n #{params[:msg_content]}\n" if params[:msg_content].blank? == false
 
@@ -133,30 +133,34 @@ msg_picurl
                                        description: "app 名称", # a short description of this parameter
                                        is_string: true,
                                        verify_block: proc do |value|
-                                         UI.error("No msg_title for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
+                                         UI.warn("No msg_app_name for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
                                          # UI.error("Couldn't find file at path '#{value}'") unless File.exist?(value)
-                                       end),
+                                       end,
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :msg_app_version,
                                        description: "app 版本", # a short description of this parameter
                                        is_string: true,
                                        verify_block: proc do |value|
-                                         UI.error("No msg_title for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
+                                         UI.warn("No msg_app_version for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
                                          # UI.error("Couldn't find file at path '#{value}'") unless File.exist?(value)
-                                       end),
+                                       end,
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :msg_app_size,
                                        description: "app 大小", # a short description of this parameter
                                        is_string: true,
                                        verify_block: proc do |value|
-                                         UI.error("No msg_title for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
+                                         UI.warn("No msg_app_size for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
                                          # UI.error("Couldn't find file at path '#{value}'") unless File.exist?(value)
-                                       end),
+                                       end,
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :msg_app_url,
                                        description: "app 下载链接", # a short description of this parameter
                                        is_string: true,
                                        verify_block: proc do |value|
-                                         UI.error("No msg_title for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
+                                         UI.error("No msg_app_url for WxworkNotifierYkAction given, pass using `msg_title: 'hello world'`") unless (value and not value.empty?)
                                          # UI.error("Couldn't find file at path '#{value}'") unless File.exist?(value)
-                                       end),
+                                       end,
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :commit_id,
                                        description: "git提交ID", # a short description of this parameter
                                        is_string: true,

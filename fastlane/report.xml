@@ -5,17 +5,17 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000437">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000281">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.00028">
+      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000218">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: build_app" time="3.99456">
+      <testcase classname="fastlane.lanes" name="2: wxwork_notifier_yk" time="0.509858">
         
       </testcase>
     
