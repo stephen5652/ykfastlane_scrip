@@ -17,7 +17,7 @@ module Fastlane
         # sh "shellcommand ./path"
         result = true
         command = ["xcrun altool --upload-app"]
-        command << " -f #{params[:specify_file_path]}"
+        command << " -f \"#{params[:specify_file_path]}\""
         command << " -t ios"
         command << " -u #{params[:user_name]}"
         password_part = "-p #{params[:pass_word]}"
@@ -41,7 +41,7 @@ module Fastlane
 
         puts "test flight finish code:#{command_result}"
         if command_result != 0
-          UI.user_error!("tf upload failed: #{params[:specify_file_path]}")
+          UI.important("tf upload failed: #{params[:specify_file_path]}")
           return false
         end
 

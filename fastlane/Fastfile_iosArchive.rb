@@ -138,6 +138,58 @@ lane :archive_tf do |options|
 end
 
 desc "" "
+    上传TF,发送结果给企业微信群
+    参数:
+      ipa: [必需] ipa文件绝对路径
+      user_name: [必需] apple id
+      pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+      wxwork_access_token: [可选] 企业微信机器人
+      note: [可选] TF包发包信息,用以通知相关开发
+
+    command example: ykfastlane upload_ipa_to_tf ipa:ShuabaoQ user_name:\"xxxx.com\" pass_word:\"xxx-xxx-xxx-xxx\" wxwork_access_token:\"wxworktokem\" note:\"note\"
+" ""
+lane :upload_ipa_to_tf do |options|
+  puts "upload_ipa_to_tf options:#{options}"
+  ipa_path = options[:ipa]
+  tf_result = up_test_flight_func(ipa_path, options[:user_name], options[:pass_word])
+
+  UI.important("Upload ipa to TF finish, but not notify wechat, since no robot token") if options[:wxwork_access_token].blank?
+
+  if tf_result == false
+    UI.user_error!("Upload ipa to TF failed: #{ipa_path}")
+    exit!(1) #结束任务
+  end
+
+  if tf_result == true && options[:wxwork_access_token].blank? == false
+    analysis_result = analyze_ios_ipa(ipa_path: ipa_path)
+    UI.important("⚠️ Warning: analyze ipa finish") unless analysis_result != 0
+
+    app_hash = lane_context[:AnalyzeIosIpaActionResultHash][:app]
+    app_info_hash = app_hash[:info]
+    app_info_categories_hash = app_hash[:categories]
+    info_options = {
+      app_info_name: app_info_hash[:display_name].blank? ? app_info_hash[:executable] : app_info_hash[:display_name],
+      app_info_buildnumber: app_info_hash[:version],
+      app_info_versionnumber: app_info_hash[:short_version],
+      app_info_size: app_info_hash[:format_size],
+    }
+
+    title = "TF app \"#{info_options[:app_info_name]}\" new version."
+    message_hash = {
+      msg_title: title,
+      msg_app_name: info_options[:app_info_name],
+      msg_app_version: "#{info_options[:app_info_versionnumber]}(#{info_options[:app_info_buildnumber]})",
+      msg_app_size: info_options[:app_info_size],
+      release_note: options[:note].blank? ? "TF 包" : options[:note],
+    }
+
+    wx_message_func(options[:wxwork_access_token], message_hash)
+  end
+
+  UI.important("Upload ipa to TF success: #{ipa_path}")
+end
+
+desc "" "
     安装mobileprovision 文件.
     描述: 
     1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;

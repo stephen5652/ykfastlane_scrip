@@ -79,6 +79,24 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     command example: ykfastlane archive_tf scheme:ShuabaoQ user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note" xcworkspace:"~/Desktop/ShuaBao" cocoapods:1 flutter_directory:"flutter_directory"
 
 
+### upload_ipa_to_tf
+
+```sh
+[bundle exec] fastlane upload_ipa_to_tf
+```
+
+
+    上传TF,发送结果给企业微信群
+    参数:
+      ipa: [必需] ipa文件绝对路径
+      user_name: [必需] apple id
+      pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+      wxwork_access_token: [可选] 企业微信机器人
+      note: [可选] TF包发包信息,用以通知相关开发
+
+    command example: ykfastlane upload_ipa_to_tf ipa:ShuabaoQ user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note"
+
+
 ### yk_install_mobileprovision_enterprise
 
 ```sh
