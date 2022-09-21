@@ -103,9 +103,6 @@ GEM
       highline (~> 2.0.0)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
-    debase (0.2.4.1)
-      debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.16)
     declarative (0.0.20)
     digest-crc (0.6.4)
       rake (>= 12.0.0, < 14.0.0)
@@ -373,9 +370,8 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
-  cocoapods (= 1.11.3)
+  cocoapods
   cocoapods-pod-sign
-  debase
   fastlane
   fastlane-plugin-analyze_ios_ipa
   fastlane-plugin-badge
@@ -383,8 +379,9 @@ DEPENDENCIES
   fastlane-plugin-store_sizer
   fastlane-plugin-versioning
   podspec_editor (~> 0.4.0)
+  public_suffix
   railties
   ruby-debug-ide (= 0.7.3)
 
 BUNDLED WITH
-   2.3.6
+   2.3.22
