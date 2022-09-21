@@ -451,9 +451,6 @@ def archive_ios_func(options)
   path_root = path_rename
   ipa_path = @archive_para.ipa_final_path
 
-  #创建 tag
-  # create_tag_for_archive(scheme_name, app_version, app_build, time)
-
   #准备上传ipa包
   # {:author=>"stephen.chen", :author_email=>"stephenchen@xxxxx.com", :message=>"Merge branch 'master' into ID1024734\n", :commit_hash=>"4d6afbae52c86a79ab3e9f0f87eb55569f9cbd1a", :abbreviated_commit_hash=>"4d6afba"}
   commit = last_commit_yk(work_path: File.expand_path(options[:xcworkspace]))
@@ -493,9 +490,9 @@ def archive_ios_func(options)
 end
 
 # 创建tag
-def create_tag_for_archive(scheme_name, version_number, build_number, archive_date)
-  tag_name = "Test_#{scheme_name}_#{version_number}_#{build_number}_#{archive_date}"
-  tag_des = "\"#{scheme_name} test version [#{version_number}_#{build_number}], archived at #{archive_date}\""
+def create_tag_for_archive(tag_pre, scheme_name, version_number, build_number)
+  tag_name = "#{tag_pre}_#{scheme_name}_#{version_number}_#{build_number}"
+  tag_des = "\"#{tag_pre} #{scheme_name} [#{version_number}_#{build_number}]\""
 
   tag_command = ""
   tag_command << "git tag -a #{tag_name} -m #{tag_des}"
