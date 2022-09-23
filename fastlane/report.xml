@@ -5,17 +5,47 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000392">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000551">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000236">
+      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000276">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: cocoapods" time="4.003138">
+      <testcase classname="fastlane.lanes" name="2: cocoapods" time="5.515496">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: build_app" time="235.171511">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: analyze_ios_ipa" time="3.68671">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: last_commit_yk" time="0.143521">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: tf_upload_yk" time="112.202998">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: wxwork_notifier_yk" time="0.205296">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="8: Switch to clear_buile_temp lane" time="0.000341">
         
       </testcase>
     

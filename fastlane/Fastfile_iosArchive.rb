@@ -120,6 +120,8 @@ lane :archive_tf do |options|
 
   tf_result = up_test_flight_func(options[:ipa], options[:user_name], options[:pass_word])
   if tf_result == true
+    create_tag_for_archive("TF", archive_info_hash[:app_name], archive_info_hash[:version_number], archive_info_hash[:build_number])
+
     title = "TF app \"#{archive_info_hash[:app_name]}\" new version."
     message_hash = {
       msg_title: title,
@@ -536,7 +538,7 @@ def up_pgyer_func(ipa_file, pgyer_api, pgyer_user, update_note)
   }
 end
 
-# 上传包到fire
+# 上传包到fir
 def up_fir_func(ipa_file, api_token, update_note)
   UI.user_error!("up_fir require ipa file:#{ipa_file}") if ipa_file.blank?
   UI.user_error!("pgyer require key:fir_api_token") if api_token.blank?
