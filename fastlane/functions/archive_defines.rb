@@ -134,6 +134,7 @@ module YkArchiveCi
         export_options: {
           compileBitcode: false, #关闭bitcode rebuild
           stripSwiftSymbols: false, #此字段是为了节省导出包的时间, 对于swift混编项目,次字段会导致到处包的时间大大延长.
+          manageAppVersionAndBuildNumber: false, #关闭apple store connect  管理build 号
         },
         export_xcargs: self.export_xcargs,
       }

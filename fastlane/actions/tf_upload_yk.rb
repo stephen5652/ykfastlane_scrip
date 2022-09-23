@@ -25,7 +25,8 @@ module Fastlane
         command << " --verbose" unless  params[:verbose].blank? || params[:verbose] == false
 
         command_result = 0
-        Actions.sh(
+
+        shell_result = Actions.sh(
           command.compact.join(" "),
           log: true,
           error_callback: proc do |result|
@@ -33,12 +34,13 @@ module Fastlane
           end,
           &proc do |code, result, command|
             command_result = code.exitstatus
-            puts "test flight result code[result:#{command_result}] -- code.exitstatus[#{code.exitstatus.class}]#{code.exitstatus}"
+            puts "test flight result code[result:#{result}] -- code.exitstatus[#{code.exitstatus.class}]#{code.exitstatus}"
             sensitive_command = command.gsub(password_part, " -p ********")
             puts "tf command:#{sensitive_command}"
           end
-        )
+        ).chomp
 
+        puts "test flight shell return:#{shell_result}"
         puts "test flight finish code:#{command_result}"
         if command_result != 0
           UI.important("tf upload failed: #{params[:specify_file_path]}")
