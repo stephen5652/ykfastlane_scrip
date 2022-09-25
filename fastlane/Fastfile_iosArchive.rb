@@ -437,6 +437,14 @@ def archive_ios_func(options)
   @archive_para.workspace = workspace_file
   @archive_para.export_method = export_method
 
+  UI.important("should analysis workspace:#{@archive_para.workspace}")
+  schemeInfo = analysis_xcode_workspace_yk(
+    workspace: @archive_para.workspace,
+    scheme: @archive_para.scheme,
+  )
+
+  puts("scheme_info:#{schemeInfo}")
+
   build_app(@archive_para.build_paramaters())
 
   #解析ipa && 重命名ipa输出路径

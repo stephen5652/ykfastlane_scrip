@@ -382,6 +382,7 @@ DEPENDENCIES
   public_suffix
   railties
   ruby-debug-ide (= 0.7.3)
+  xcodeproj
 
 BUNDLED WITH
    2.3.22
