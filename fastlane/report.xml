@@ -5,22 +5,54 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.00049">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000465">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000231">
+      <testcase classname="fastlane.lanes" name="1: analysis_xcode_workspace_yk" time="0.177329">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: analysis_xcode_workspace_yk" time="0.068528">
+      <testcase classname="fastlane.lanes" name="2: find_profile_yk" time="0.000571">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: build_app" time="3.201937">
+      <testcase classname="fastlane.lanes" name="3: find_profile_yk" time="0.000395">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: build_app" time="69.369592">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: analyze_ios_ipa" time="0.695079">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: last_commit_yk" time="0.118711">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: fir_cli_yk" time="1.595623">
+        
+          <failure message="/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/actions/actions_helper.rb:67:in `execute_action'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/runner.rb:255:in `block in execute_action'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/runner.rb:229:in `chdir'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/runner.rb:229:in `execute_action'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/runner.rb:157:in `trigger_action_by_name'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/fast_file.rb:159:in `method_missing'&#10;/Users/stephen/STWork/ykfastlane_script/fastlane/functions/lanes/ykArchiveDefines.rb:274:in `upload_fir_func_yk'&#10;functions/lanes/Fastfile_iosArchive.rb:74:in `block in parsing_binding'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/lane.rb:33:in `call'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/runner.rb:49:in `block in execute'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/runner.rb:45:in `chdir'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/runner.rb:45:in `execute'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/lane_manager.rb:47:in `cruise_lane'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/command_line_handler.rb:36:in `handle'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/commands_generator.rb:110:in `block (2 levels) in run'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/commander-4.6.0/lib/commander/command.rb:187:in `call'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/commander-4.6.0/lib/commander/command.rb:157:in `run'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/commander-4.6.0/lib/commander/runner.rb:444:in `run_active_command'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane_core/lib/fastlane_core/ui/fastlane_runner.rb:124:in `run!'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/commander-4.6.0/lib/commander/delegates.rb:18:in `run!'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/commands_generator.rb:354:in `run'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/commands_generator.rb:43:in `start'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/fastlane/lib/fastlane/cli_tools_distributor.rb:123:in `take_off'&#10;/Users/stephen/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/fastlane-2.210.0/bin/fastlane:23:in `&lt;top (required)&gt;'&#10;/Users/stephen/.rbenv/versions/2.7.5/bin/fastlane:23:in `load'&#10;/Users/stephen/.rbenv/versions/2.7.5/bin/fastlane:23:in `&lt;main&gt;'&#10;&#10;401 Unauthorized" />
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="8: Switch to clear_build_temp lane" time="0.000357">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="9: wxwork_notifier_yk" time="0.189248">
         
       </testcase>
     

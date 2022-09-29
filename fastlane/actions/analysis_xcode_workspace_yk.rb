@@ -1,6 +1,6 @@
 require 'rexml/document'
 
-require_relative '../yktools/YKSchemeTools'
+require_relative '../action_tools_yk/YKSchemeTools'
 module Fastlane
   module Actions
     module SharedValues
@@ -11,7 +11,7 @@ module Fastlane
       include REXML
       def self.run(params)
         puts "params:#{params.class}:#{params.values}" # FastlaneCore::Configuration
-        workspace = params[:workspace]
+        workspace = params[:xcworkspace]
         scheme = params[:scheme]
         UI.user_error!("Workspace not existed! -- #{workspace}") unless File.exist?(workspace)
 
@@ -20,9 +20,10 @@ module Fastlane
 
         {
           :scheme => scheme_obj.name,
-          :bundle_identifier => scheme_obj.bundle_identifier,
+          :bundle_identifiers => scheme_obj.bundle_identifiers,
           :print_name => scheme_obj.print_name,
           :project => scheme_obj.project,
+          :workspace => scheme_obj.workspace,
         }
       end
 
@@ -43,7 +44,7 @@ module Fastlane
 
         # Below a few examples
         [
-          FastlaneCore::ConfigItem.new(key: :workspace,
+          FastlaneCore::ConfigItem.new(key: :xcworkspace,
                                        description: ".xcworkspace path", # a short description of this parameter
                                        optional: true,
                                        verify_block: proc do |value|

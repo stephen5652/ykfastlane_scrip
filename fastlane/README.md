@@ -31,14 +31,15 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
+      export: [可选] 包的类型, 包的类型, app-store, validation,ad-hoc, package, enterprise, development, developer-id, mac-application, 默认为enterprise
 
     command example: ykfastlane archive_pgyer scheme:ShuabaoQ pgyer_api:"123456" pgyer_user:"123456" wxwork_access_token:"wxworktokem" note:"note" xcworkspace:"~/Desktop/ShuaBao" cocoapods:1 flutter_directory:"flutter_directory"
 
 
-### archive_fire
+### archive_fir
 
 ```sh
-[bundle exec] fastlane archive_fire
+[bundle exec] fastlane archive_fir
 ```
 
 
@@ -51,9 +52,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
       note: [可选] 测试包发包信息
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
+      export: [可选] 包的类型, 包的类型, app-store, validation,ad-hoc, package, enterprise, development, developer-id, mac-application, 默认为enterprise
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
 
-    command example: ykfastlane archive_fire scheme:ShuabaoQ fir_api_token:"fir_api_token" wxwork_access_token:"wxworktokem" note:"note" xcworkspace:"~/Desktop/ShuaBao" cocoapods:1 flutter_directory:"flutter_directory"
+    command example: ykfastlane archive_fir scheme:ShuabaoQ fir_api_token:"fir_api_token" wxwork_access_token:"wxworktokem" note:"note" xcworkspace:"~/Desktop/ShuaBao" cocoapods:1 flutter_directory:"flutter_directory"
 
 
 ### archive_tf
@@ -94,46 +96,26 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
       wxwork_access_token: [可选] 企业微信机器人
       note: [可选] TF包发包信息,用以通知相关开发
 
-    command example: ykfastlane upload_ipa_to_tf ipa:ShuabaoQ user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note"
+    command example: ykfastlane upload_ipa_to_tf ipa:"xxxx/xxx/xx.ipa" user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note"
 
 
-### yk_install_mobileprovision_enterprise
+### yk_install_mobileprovision
 
 ```sh
-[bundle exec] fastlane yk_install_mobileprovision_enterprise
+[bundle exec] fastlane yk_install_mobileprovision
 ```
 
 
     安装mobileprovision 文件.
-    描述: 
+    描述:
     1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;
     2. provision_files_enterprise 文件夹里面放置所有的描述文件;
     3. 该指令需要在provision_files_enterprise文件夹的上级的根目录执行.
 
-    该指令没有参数.
+    参数:
+    profile_path: [必需] profile 文件绝对路径
 
-    command example: ykfastlane yk_install_mobileprovision_enterprise
- 
-
-### yk_install_cetificates_enterprise
-
-```sh
-[bundle exec] fastlane yk_install_cetificates_enterprise
-```
-
-
-    安装 certificate 文件.
-    描述: 
-    1. 需要创建一个git仓库, 仓库中有一个 certificate_files_enterprise 文件夹;
-    2. certificate_files_enterprise 文件夹里面放置所有的证书文件;
-    3. 所有的证书只能有一个密码
-    4. 该指令需要在provision_files_enterprise文件夹的上级的根目录执行.
-
-    参数: 
-      password_keychain: [必需] 证书安装在 "登录" 的keychain项, 需要解锁keychain, 此字段一般是用户的开机密码.
-      password_cer: [非必须] 如果证书有密码, 则需要传密码
-
-    command example: ykfastlane yk_install_cetificates_enterprise password_cer:123456 password_keychain:123456
+    command example: ykfastlane yk_install_mobileprovision profile_path:"xxxxx"
  
 
 ### re_upload_pgyer
@@ -162,18 +144,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     command example: ykfastlane re_upload_fir fir_api_token:"1234" wxwork_access_token:"wxwork_key" last_log:"~/xx/x/directory" note:"reupload"
 
 
-### wx_message_notice
+### clear_build_temp
 
 ```sh
-[bundle exec] fastlane wx_message_notice
-```
-
-
-
-### clear_buile_temp
-
-```sh
-[bundle exec] fastlane clear_buile_temp
+[bundle exec] fastlane clear_build_temp
 ```
 
 
@@ -186,24 +160,36 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 private lane, cannot be used. Just used for developing to testing some action.
 
-### github_pod_transfer
+### update_archive_env
 
 ```sh
-[bundle exec] fastlane github_pod_transfer
+[bundle exec] fastlane update_archive_env
 ```
 
 
-    迁移github三方库到移开gitlab.
-    描述: 
-    1. 需要在移开gitlab创建一个同名的git仓库.
+    配置 企业微信机器人， fir平台token, pgyer平台token
+    参数:
+      fir_api_token: [可选] fir平台token
+      pgyer_api: [可选] 蒲公英平台api_key
+      pgyer_user[可选] 蒲公英平台 user_key
+      wxwork_access_token: [可选] 企业微信机器人 webhook中的key字段
+      tf_user_name: [必需] apple id
+      tf_pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+    command example: ykfastlane update_archive_env fir_api_token:"xxx" pgyer_api:"123456" pgyer_user:"123456" wxwork_access_token:"wxworktoken"
 
-    参数: 
-      orignal_url: [必需]
-      ykgitlab_url:[必需]
-      versions:[非必需] 迁移的目标版本，多个的时候用空格' '隔开， 默认遍历尝试迁移所有的版本，比较耗时
-      wxwork_access_token:[非必需] 用于将任务结果传给企业微信
 
-    command example: ykfastlane github_pod_transfer orignal_url:'https://github.com/AFNetworking/AFNetworking.git' ykgitlab_url:'http://gitlab.xxxxx.com/App/iOS/GitHubComponents/AFNetworking.git' versions:"1.0.0 1.3.4 1.2.5"
+### wx_message_notice
+
+```sh
+[bundle exec] fastlane wx_message_notice
+```
+
+
+  通过企业微信机器人，发送消息
+      参数：
+        wx_notice_token：[可选] 企业微信机器人 webhook中的key字段
+        msg_title: [可选] 微信消息标题
+        notice_message: [可选] 微信消息内容
 
 
 ----

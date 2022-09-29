@@ -162,6 +162,7 @@
     <orderEntry type="library" scope="PROVIDED" name="xcodeproj (v1.22.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xcpretty (v0.3.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xcpretty-travis-formatter (v1.0.1, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="yaml (v0.2.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.6.0, rbenv: 2.7.5) [gem]" level="application" />
   </component>
 </module>
