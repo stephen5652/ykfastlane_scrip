@@ -80,7 +80,7 @@ lane :archive_fir do |options|
     token = YKArchiveConfig::Config.new.wx_access_token
   end
 
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.size, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, fir_url)
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, upload_info.release_note, fir_url)
   robot.token = token
   send_msg_to_wechat(robot, true)
 end

@@ -245,7 +245,7 @@ module YKArchiveModule
       self.ipa_info = ipa_info
       self.commit_info = commit_info
       self.archive_time = archive_time
-      self.release_note = note
+      self.release_note = note.blank? ? "ios 测试包" : note
 
       self
     end
@@ -253,8 +253,8 @@ module YKArchiveModule
     def platform_release_note
       note = self.release_note.blank? ? "ios 测试包" : self.release_note
       version = self.ipa_info.version_build.blank? ? "" : self.ipa_info.version_build
-      commit_id = self.commit_info.abbreviated_commit_hash ? "" : self.commit_info.abbreviated_commit_hash
-      commit_des = self.commit_info.message ? "" : self.commit_info.message
+      commit_id = self.commit_info.abbreviated_commit_hash.blank? ? "" : self.commit_info.abbreviated_commit_hash
+      commit_des = self.commit_info.message.blank? ? "" : self.commit_info.message
       result = "" "
       note:#{note}
       version:#{version}
@@ -263,6 +263,7 @@ module YKArchiveModule
       commit_message:#{commit_des}
       " ""
       puts "upload_platform_release_note:\n#{result}\n\n"
+      result
     end
   end
 end
@@ -336,7 +337,7 @@ module YKArchiveModule
                               msg_app_size: size,
                               commit_id: commit_id,
                               commit_message: commit_msg,
-                              release_note: note,
+                              release_note: note.blank? ? "ios 测试包" : note,
                               msg_app_url: url,
                             })
       self
