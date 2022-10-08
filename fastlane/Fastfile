@@ -2,13 +2,20 @@ default_platform(:ios)
 
 require "json"
 
-import "./Fastfile_iosArchive.rb"
-import "./FastFile_github_podTransfer.rb"
+import "./functions/lanes/Fastfile_iosArchive.rb"
+import "./functions/lanes/YKConfigScriptEnv.rb"
+import "./functions/Fastfile_workfaild.rb"
 
 before_all do |lane, options|
+  fast_file_path = File.expand_path(File.dirname(__FILE__))
+
+  options[:fast_file_path] = fast_file_path
+  options[:first_lane] = lane
+
   # 路径类参数,在此处变为绝对路径
   @script_run_path = options[:script_run_path].blank? ? File.expand_path(Dir.pwd) : options[:script_run_path]
   options[:script_run_path] = @script_run_path
+
   puts "script_run_path:#{@script_run_path}"
   Dir.chdir(@script_run_path) do
     options[:xcworkspace] = options[:xcworkspace].blank? ? @script_run_path : File.expand_path(options[:xcworkspace])
@@ -16,8 +23,8 @@ before_all do |lane, options|
   end
 end
 
-error do |lane, exception|
-puts "#{exception}"
-  clear_buile_temp
+error do |lane, exception, options|
+  clear_build_temp
+  workfaild_yk(lane, exception, options)
 end
 

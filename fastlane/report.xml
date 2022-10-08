@@ -5,22 +5,12 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.00049">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000477">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.000231">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="2: analysis_xcode_workspace_yk" time="0.068528">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="3: build_app" time="3.201937">
+      <testcase classname="fastlane.lanes" name="1: list_profile_yk" time="0.001187">
         
       </testcase>
     

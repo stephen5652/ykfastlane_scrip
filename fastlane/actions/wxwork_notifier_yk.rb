@@ -7,7 +7,7 @@ module Fastlane
     class WxworkNotifierYkAction < Action
       def self.run(params)
         # fastlane will take care of reading in the parameter and fetching the environment variable:
-        UI.message("paramaters:#{params}")
+        UI.message("paramaters:#{params.values}")
 
         return if params[:wxwork_webhook].blank? && params[:wxwork_access_token].blank?
 

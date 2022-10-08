@@ -91,7 +91,6 @@ GEM
     cocoapods-downloader (1.6.3)
     cocoapods-plugins (1.0.0)
       nap
-    cocoapods-pod-sign (1.2.2)
     cocoapods-search (1.0.1)
     cocoapods-trunk (1.6.0)
       nap (>= 0.8, < 2.0)
@@ -194,6 +193,7 @@ GEM
       ruby-macho
     fastlane-plugin-versioning (0.5.1)
     ffi (1.15.5)
+    fileutils (1.4.1)
     fir-cli (2.0.14)
       CFPropertyList
       admqr_knife (~> 0.1.5)
@@ -278,6 +278,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.13.8-x86_64-darwin)
       racc (~> 1.4)
+    openssl (3.0.1)
     optparse (0.1.1)
     os (1.1.4)
     plist (3.6.0)
@@ -362,6 +363,7 @@ GEM
       rouge (~> 2.0.7)
     xcpretty-travis-formatter (1.0.1)
       xcpretty (~> 0.2, >= 0.0.7)
+    yaml (0.2.0)
     zeitwerk (2.6.0)
 
 PLATFORMS
@@ -371,18 +373,22 @@ PLATFORMS
 DEPENDENCIES
   bundler
   cocoapods
-  cocoapods-pod-sign
   fastlane
   fastlane-plugin-analyze_ios_ipa
   fastlane-plugin-badge
   fastlane-plugin-fir_cli
   fastlane-plugin-store_sizer
   fastlane-plugin-versioning
+  fileutils
+  json
+  openssl
+  plist
   podspec_editor (~> 0.4.0)
   public_suffix
   railties
   ruby-debug-ide (= 0.7.3)
   xcodeproj
+  yaml
 
 BUNDLED WITH
    2.3.22

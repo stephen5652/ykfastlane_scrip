@@ -2,7 +2,11 @@
 
 gem "cocoapods"
 gem 'xcodeproj'
-gem 'cocoapods-pod-sign'
+gem 'yaml'
+gem 'json'
+gem 'openssl'
+gem 'plist'
+
 #gem "fastlane-plugin-yk_actions", path:"./fastlane-plugin-yk_actions"
 
 gem 'fastlane-plugin-versioning'

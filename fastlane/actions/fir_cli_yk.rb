@@ -25,7 +25,7 @@ module Fastlane
     class FirCliYkAction < Action
       def self.run(params)
         UI.message("The fir_cli plugin is working!")
-        UI.message("paramaters:#{params}")
+        UI.message("paramaters:#{params.values}")
 
         fir_args = find_app_location(params[:specify_file_path])
         options = {
