@@ -13,6 +13,17 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
+### list_profile_configs
+
+```sh
+[bundle exec] fastlane list_profile_configs
+```
+
+
+    显示 profile 配置
+    参数: 无参数
+
+
 ### archive_pgyer
 
 ```sh
@@ -116,7 +127,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     profile_path: [必需] profile 文件绝对路径
 
     command example: ykfastlane yk_install_mobileprovision profile_path:"xxxxx"
- 
+
 
 ### re_upload_pgyer
 

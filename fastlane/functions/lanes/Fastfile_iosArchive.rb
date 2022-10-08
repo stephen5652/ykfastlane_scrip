@@ -5,6 +5,14 @@ require 'yaml'
 require 'json'
 
 require_relative 'ykArchiveDefines'
+desc "" "
+    显示 profile 配置
+    参数: 无参数
+" ""
+lane :list_profile_configs do |options|
+  dict = list_profile_yk()
+  Fastlane::UI.important(dict.to_json)
+end
 
 desc "" "
     打iOS测试包,并上传蒲公英,发送结果给企业微信群
@@ -165,7 +173,7 @@ desc "" "
     profile_path: [必需] profile 文件绝对路径
 
     command example: ykfastlane yk_install_mobileprovision profile_path:\"xxxxx\"
- " ""
+" ""
 lane :yk_install_mobileprovision do |options|
   Fastlane::UI.important("yk_install_mobileprovision options:#{options}")
   analysis_mobileprofile_yk(profile_path: options[:profile_path])

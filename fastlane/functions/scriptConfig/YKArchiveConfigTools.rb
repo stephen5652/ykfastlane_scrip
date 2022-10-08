@@ -7,7 +7,7 @@ module YKArchiveConfig
   module Helper
     include YKYmlModule::Tool
     PATH_CONFIG_ROOT_DIR = File.expand_path(File.join(Dir.home, '.ykfastlane_config/archive_config'))
-    PATH_CONFIG_ARCHIVE_DETAIL = File.join(PATH_CONFIG_ROOT_DIR, 'archive_env.yml')
+    PATH_CONFIG_ARCHIVE_DETAIL = File.join(PATH_CONFIG_ROOT_DIR, 'archive_config.yml')
 
     K_WX_ACCESS_TOKEN = :wx_access_token
     K_FIR_API_TOKEN = :fir_api_token
@@ -16,9 +16,9 @@ module YKArchiveConfig
     K_PGYER_USER = :pgyer_user
     K_PGYER_API = :pgyer_api
 
-    K_TF_INFO = :tf_info_key
-    K_TF_USER = :tf_user
-    K_TF_PASSWORD = :tf_password
+    K_TF_INFO = :test_flight
+    K_TF_USER = :user_name
+    K_TF_PASSWORD = :pass_word
 
     def load_config_value(key)
       puts("fastlane_script_env_path:#{PATH_CONFIG_ARCHIVE_DETAIL}")

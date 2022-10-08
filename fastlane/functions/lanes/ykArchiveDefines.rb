@@ -31,7 +31,7 @@ module YKArchiveModule
       if self.scheme.blank? || self.export_method.blank?
         File.expand_path(File.join(self.product_root_path, "temp_#{self.archive_time}"))
       else
-        File.expand_path(File.join(self.product_root_path, self.scheme, "temp_#{self.export_method}_#{self.archive_time}"))
+        File.expand_path(File.join(self.product_root_path, "temp", "temp_#{self.scheme}_#{self.export_method}_#{self.archive_time}"))
       end
     end
 

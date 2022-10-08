@@ -1,34 +1,14 @@
 require 'yaml'
+require_relative '../action_tools_yk/YKProfileTools'
 
 module Fastlane
-  module YKProfileEnv
-    YK_CONFIG_GIT_YAML = File.expand_path(File.join(Dir.home, '.ykfastlane_config/archive_config/git_info.yml'))
-    YK_CONFIG_PROFILE_YAML = File.expand_path(File.join(Dir.home, '.ykfastlane_config/archive_config/profile.yml'))
-    def self.profile_config_path_yk()
-      result = Fastlane::YKProfileEnv::YK_CONFIG_PROFILE_YAML
-      result
-    end
-  end
-
   module Actions
 
     class FindProfileYkAction < Action
 
       def self.run(params)
         puts("find profile for:#{params.values}")
-        config_path = YKProfileEnv.profile_config_path_yk()
-        if File.exist?(config_path) == false
-          return {}
-        end
-
-        f = File.open(config_path, 'r')
-        yml = YAML.load(f, symbolize_names: false)
-        f.close
-        if yml == false
-          yml = {}
-        end
-        puts("yml[#{yml.class}]:#{yml.to_json}")
-        puts("profile_config_path:#{config_path}")
+        yml = YKProfileModule::YKProfileEnv.load_profile_yml()
         if yml[params[:bundle_identifier]] == nil
           return {}
         end
