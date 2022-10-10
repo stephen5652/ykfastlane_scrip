@@ -77,7 +77,14 @@ module YKArchiveModule
     def move_to_destination_path(ipa_version, ipa_build)
       dest_root_path = self.output_root_path_final(ipa_version, ipa_build)
       temp_root_path = self.output_root_path_temp
-      FileUtils.mv(temp_root_path, dest_root_path, force: true)
+      puts("temp_root_path:#{temp_root_path}")
+      puts("dest_root_path:#{dest_root_path}")
+
+      if File.exist?(File.dirname(dest_root_path)) == false
+        FileUtils.mkdir_p(File.dirname(dest_root_path))
+      end
+
+      FileUtils.mv(temp_root_path, dest_root_path, force: true, verbose: true)
     end
 
     def export_xcargs
@@ -93,7 +100,7 @@ module YKArchiveModule
 
       puts("export_profile_dict:#{self.export_profile_dict}")
       skip_profile_detect = false
-      if self.export_profile_dict.blank? == false
+      if self.export_profile_dict.blank? == false && self .export_profile_dict.count == self.bundle_identifiers.count
         export_options.update({
                                 provisioningProfiles: self.export_profile_dict
                               })
@@ -120,20 +127,24 @@ end
 $para_archive = YKArchiveModule::ArchiveInfo.new()
 
 def archive_func(workspace, scheme, export_method, cocoapods)
-  scheme_info = analysis_xcode_workspace_yk(
+  all_scheme_info = analysis_xcode_workspace_yk(
     xcworkspace: workspace,
-    scheme: scheme
   )
 
+  scheme_info = all_scheme_info[scheme]
+  if scheme_info == nil
+    Fastlane::UI.user_error!("Not fount scheme[#{scheme}] from workspace:#{workspace}")
+  end
+
   $para_archive.export_method = export_method.blank? ? "enterprise" : export_method
-  $para_archive.scheme = scheme_info[:scheme]
+  $para_archive.scheme = scheme_info[:scheme_name]
   $para_archive.workspace = scheme_info[:workspace]
   $para_archive.bundle_identifiers = scheme_info[:bundle_identifiers]
   $para_archive.cocoapods_flag = Integer(cocoapods.blank? ? "0" : cocoapods) == 1 ? true : false
 
   profile_dict = {}
   $para_archive.bundle_identifiers.each do |one|
-    profile_uuid = find_profile_yk(
+    profile_uuid = find_profile_uuid_yk(
       bundle_identifier: one,
       export_method: export_method
     )
@@ -148,7 +159,8 @@ def archive_func(workspace, scheme, export_method, cocoapods)
   podfile_dir = File.dirname($para_archive.workspace)
   cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false) unless $para_archive.cocoapods_flag == false
 
-  build_app($para_archive.build_parameters)
+  para =  $para_archive.build_parameters
+  build_app(para)
   ipa_path = lane_context[:IPA_OUTPUT_PATH]
   $para_archive.ipa_path_temp = ipa_path
 
@@ -302,17 +314,17 @@ def upload_pgyer_func_yk(upload_info, pgyer_user, pgyer_api)
   app_url
 end
 
-def upload_tf_func_yk(ipa_info, user, password)
-  if user.blank? || password.blank?
-    info = YKArchiveConfig::Config.new.tf_info_update
-    user = info[YKArchiveConfig::Helper::K_TF_USER]
+def upload_tf_func_yk(ipa_info, user_name, password)
+  if user_name.blank? || password.blank?
+    info = YKArchiveConfig::Config.new.tf_info
+    user_name = info[YKArchiveConfig::Helper::K_TF_USER]
     password = info[YKArchiveConfig::Helper::K_TF_PASSWORD]
   end
 
   result = tf_upload_yk(
     specify_file_path: ipa_info.ipa_path,
     user_name: user_name,
-    pass_word: pass_word,
+    pass_word: password,
     verbose: true,
   )
   result

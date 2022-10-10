@@ -5,14 +5,6 @@ require 'yaml'
 require 'json'
 
 require_relative 'ykArchiveDefines'
-desc "" "
-    显示 profile 配置
-    参数: 无参数
-" ""
-lane :list_profile_configs do |options|
-  dict = list_profile_yk()
-  Fastlane::UI.important(dict.to_json)
-end
 
 desc "" "
     打iOS测试包,并上传蒲公英,发送结果给企业微信群
@@ -119,15 +111,15 @@ lane :archive_tf do |options|
   commit = last_commit_yk(work_path: archive_info.workspace)
   commit_info = YKArchiveModule::YKGitCommitInfo.new().config_detail(commit)
 
-  upload_tf_result = upload_tf_func_yk(ipa_info, options[:user_name], options[:pass_word])
+  upload_tf_result = upload_tf_func_yk($ipa_info, options[:user_name], options[:pass_word])
   title = "TF app \"#{$ipa_info.display_name}\"  new version."
   token = options[:wxwork_access_token]
   if upload_tf_result == false
-    title = "Test app upload failed !!"
+    title = "TF app \"#{$ipa_info.display_name}\" archive success, but upload failed !!"
     token = YKArchiveConfig::Config.new.wx_access_token
   end
 
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.size, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, "")
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, options[:note], "")
   robot.token = token
   send_msg_to_wechat(robot, true)
 end
@@ -144,9 +136,10 @@ desc "" "
     command example: ykfastlane upload_ipa_to_tf ipa:\"xxxx/xxx/xx.ipa\" user_name:\"xxxx.com\" pass_word:\"xxx-xxx-xxx-xxx\" wxwork_access_token:\"wxworktokem\" note:\"note\"
 " ""
 lane :upload_ipa_to_tf do |options|
+  options[:note] = "TF 测试包" unless options[:note].blank?
   puts "upload_ipa_to_tf options:#{options}"
   ipa_info = analysis_ipa_yk(options[:ipa])
-  put("ipa_info:#{$ipa_info.info_des}")
+  put("ipa_info:#{ipa_info.info_des}")
 
   token = options[:wxwork_access_token]
   if upload_tf_func_yk(ipa_info, options[:user_name], options[:pass_word])
@@ -163,23 +156,6 @@ lane :upload_ipa_to_tf do |options|
 end
 
 desc "" "
-    安装mobileprovision 文件.
-    描述:
-    1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;
-    2. provision_files_enterprise 文件夹里面放置所有的描述文件;
-    3. 该指令需要在provision_files_enterprise文件夹的上级的根目录执行.
-
-    参数:
-    profile_path: [必需] profile 文件绝对路径
-
-    command example: ykfastlane yk_install_mobileprovision profile_path:\"xxxxx\"
-" ""
-lane :yk_install_mobileprovision do |options|
-  Fastlane::UI.important("yk_install_mobileprovision options:#{options}")
-  analysis_mobileprofile_yk(profile_path: options[:profile_path])
-end
-
-desc "" "
     reupload ipa to pgyer
     options are: ipa[require], note[optional], last_log[optional], pgyer_api[optional], pgyer_user[optional] wxwork_access_token[require]
 
@@ -192,7 +168,7 @@ lane :re_upload_pgyer do |options|
 
   app_url = upload_pgyer_func_yk(upload_info, options[:pgyer_user], options[:pgyer_api])
 
-  title = "Test app \"#{$ipa_info.display_name}\"  new version."
+  title = "Test app \"#{ipa_info.display_name}\"  new version."
   token = options[:wxwork_access_token]
   if app_url.blank?
     title = "Test app upload failed !!"
@@ -212,12 +188,12 @@ desc "" "
 lane :re_upload_fir do |options|
   puts("re_upload_fir options:#{options}")
   ipa_info = analysis_ipa_yk(options[:ipa])
-  put("ipa_info:#{$ipa_info.info_des}")
+  put("ipa_info:#{ipa_info.info_des}")
 
   upload_info = YKArchiveModule::YKUploadPlatFormInfo.new().config_info(ipa_info, "", "", options[:note])
   app_url = upload_fir_func_yk(upload_info, options[:fir_api_token])
 
-  title = "Test app \"#{$ipa_info.display_name}\"  new version."
+  title = "Test app \"#{ipa_info.display_name}\"  new version."
   token = options[:wxwork_access_token]
   if app_url.blank?
     title = "Test app upload failed !!"

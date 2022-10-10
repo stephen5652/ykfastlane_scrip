@@ -25,84 +25,17 @@ module YKXcode
       }.to_json(*a)
     end
 
-    def self.find_scheme(scheme, workspace)
-      result = self.new()
-      result.name = scheme
-
-      '''
-      1. 根据workspace, 找到project
-      2. 根据project,找到所有scheme
-      3. 筛选scheme, 找到目标scheme
-      4. 解析出scheme对应的project, target, configuration
-      5. 解析project, 找到对应target, dependency_targets
-      6. 找到对应target,以及dependency_targets对应的configuration 下的bundle_id
-      '''
-
-      result.analysis_workspace(workspace)
-      result.analysis_scheme()
-      result.analysis_target()
-
-      puts("scheme:#{result.to_json()}")
-      result
-    end
-
-    def analysis_scheme()
-      #.xcscheme 解析
-      file = File.new(self.scheme_path)
-      scheme_data = REXML::Document.new(file)
-      XPath.each(scheme_data, '//LaunchAction/BuildableProductRunnable/BuildableReference').each do |build|
-        #REXML::Attributes
-        puts("one build:#{build.attributes}")
-        att_dict = build.attributes
-        self.buildableName = att_dict["BuildableName"]
-        self.print_name = att_dict["BlueprintName"]
-      end
-
-      XPath.each(scheme_data, '//ArchiveAction').each do |archive|
-        self.archive_configuration = archive["buildConfiguration"]
-      end
-    end
-
-    def analysis_target()
-      project_obj = Xcodeproj::Project.open(self.project)
-      target_arr = project_obj.targets.select do |one|
-        one.name == self.print_name
-      end
-      Fastlane::UI.user_error!("not found target[#{self.name}] for project:#{self.project}") if target_arr.blank?
-
-      filter_target_arr = Set[]
-      target_arr.each do |target|
-        filter_target_arr.add(target)
-        target.dependencies.each do |one_dependency|
-          filter_target_arr.add(one_dependency.target)
-        end
-      end
-
-      bundle_id_arr = Set[]
-      filter_target_arr.each do |target|
-        puts("one target:#{target}")
-        cons_arr = target.build_configurations.select { |one|
-          one.name == self.archive_configuration
-        }
-
-        cons_arr.each do |one|
-          bundle_id = one.resolve_build_setting("PRODUCT_BUNDLE_IDENTIFIER")
-          bundle_id_arr.add(bundle_id)
-        end
-      end
-
-      self.bundle_identifiers = Array(bundle_id_arr)
-    end
-
-    def analysis_workspace(workspace)
+    def self.find_workspace(workspace)
       if workspace.end_with?('.xcworkspace') == false
         arr = Dir.glob(File.join(workspace, '*.xcworkspace'))
         Fastlane::UI.user_error!("Not found or mutable xcworkspace at path: #{workspace}") unless arr.length == 1
         workspace = arr.first
       end
+      workspace
+    end
 
-      self.workspace = workspace
-
+    def self.all_projects(workspace)
+      workspace = self.find_workspace(workspace)
       arr = Dir.glob("#{workspace}/**/contents.xcworkspacedata")
       Fastlane::UI.user_error!("Not found contents.xcworkspacedata") unless arr.length > 0
       workspace_contents = arr.first
@@ -120,17 +53,100 @@ module YKXcode
         projects_arr.append(str)
       end
       puts("projects:#{projects_arr}")
+      projects_arr
+    end
 
-      projects_arr.each do |project|
-        arr = Dir.glob(File.join(project, "xcshareddata/xcschemes") + "/**/#{self.name}.xcscheme")
-        if arr.length > 0
-          self.scheme_path = arr.first
-          self.project = project
-          break
+    def self.all_shared_schemes(workspace)
+      project_arr = self.all_projects(workspace)
+      scheme_path_arr = []
+      project_arr.each do |project|
+        arr = Dir.glob(File.join(project, "xcshareddata/xcschemes") + "/**/*.xcscheme")
+        scheme_path_arr += arr unless arr.count == 0
+      end
+
+      scheme_path_arr
+    end
+
+    def self.analysis_one_scheme(scheme_path)
+      #.xcscheme 解析
+      file = File.new(scheme_path)
+      scheme_data = REXML::Document.new(file)
+      scheme_info = {}
+      XPath.each(scheme_data, '//LaunchAction/BuildableProductRunnable/BuildableReference').each do |build|
+        #REXML::Attributes
+        puts("one build:#{build.attributes}")
+        att_dict = build.attributes
+        scheme_info[:buildableName] = att_dict["BuildableName"]
+        scheme_info[:print_name] = att_dict["BlueprintName"]
+      end
+
+      XPath.each(scheme_data, '//ArchiveAction').each do |archive|
+        scheme_info[:archive_configuration] = archive["buildConfiguration"]
+      end
+
+      scheme_name = File.basename(scheme_path, ".xcscheme")
+      scheme_info[:scheme_name] = scheme_name
+
+      project_path = "" + scheme_path
+      arr = project_path.split(".xcodeproj")
+      project_path.gsub!(arr.last, "")
+      scheme_info[:scheme_path] = scheme_path
+      scheme_info[:project_path] = project_path
+
+      scheme_info
+    end
+
+    def self.analysis_scheme_path_arr(workspace, scheme_path_arr)
+      result = {}
+      scheme_path_arr.each do |one_path|
+        scheme_info = self.analysis_one_scheme(one_path)
+
+        bundle_ids = self.bundle_ids_to_one_scheme_info(scheme_info)
+        scheme_info[:bundle_identifiers] = bundle_ids
+        scheme_info[:workspace] = workspace
+
+        result[scheme_info[:scheme_name]] = scheme_info
+      end
+
+      result
+    end
+
+    def self.bundle_ids_to_one_scheme_info(scheme_info)
+
+      project_path = scheme_info[:project_path]
+      print_name = scheme_info[:print_name]
+      scheme_name = scheme_info[:scheme_name]
+      archive_configuration = scheme_info[:archive_configuration]
+
+      project_obj = Xcodeproj::Project.open(project_path)
+      target_arr = project_obj.targets.select do |one|
+        one.name == print_name
+      end
+      Fastlane::UI.user_error!("not found scheme[#{scheme_name}] target[#{print_name}] for project:#{project_path}") if target_arr.blank?
+
+      filter_target_arr = Set[]
+      target_arr.each do |target|
+        filter_target_arr.add(target)
+        target.dependencies.each do |one_dependency|
+          filter_target_arr.add(one_dependency.target)
         end
       end
 
-      Fastlane::UI.user_error!("Not found scheme [#{self.name}] from workspace:#{workspace}") if self.scheme_path.blank?
+      bundle_id_set = Set[]
+      filter_target_arr.each do |target|
+        puts("one target:#{target}")
+        cons_arr = target.build_configurations.select { |one|
+          one.name == archive_configuration
+        }
+
+        cons_arr.each do |one|
+          bundle_id = one.resolve_build_setting("PRODUCT_BUNDLE_IDENTIFIER")
+          bundle_id_set.add(bundle_id)
+        end
+      end
+
+      bundle_ids = Array(bundle_id_set)
+      bundle_ids
     end
 
   end

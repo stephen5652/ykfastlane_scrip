@@ -3,28 +3,22 @@ require 'rexml/document'
 require_relative '../action_tools_yk/YKSchemeTools'
 module Fastlane
   module Actions
-    module SharedValues
-      YK_GIT_CHANGES = :YK_GIT_CHANGES
-    end
 
     class AnalysisXcodeWorkspaceYkAction < Action
       include REXML
       def self.run(params)
         puts "params:#{params.class}:#{params.values}" # FastlaneCore::Configuration
-        workspace = params[:xcworkspace]
-        scheme = params[:scheme]
+        workspace = File.expand_path(params[:xcworkspace])
+
         UI.user_error!("Workspace not existed! -- #{workspace}") unless File.exist?(workspace)
 
         puts("start analysis workspace:#{workspace}")
-        scheme_obj = YKXcode::YKScheme.find_scheme(scheme, workspace)
+        workspace = YKXcode::YKScheme.find_workspace(workspace)
+        scheme_path_arr = YKXcode::YKScheme.all_shared_schemes(workspace)
+        scheme_info_dict = YKXcode::YKScheme.analysis_scheme_path_arr(workspace, scheme_path_arr)
+        puts("all_shared_schemes:#{scheme_info_dict.to_json}")
 
-        {
-          :scheme => scheme_obj.name,
-          :bundle_identifiers => scheme_obj.bundle_identifiers,
-          :print_name => scheme_obj.print_name,
-          :project => scheme_obj.project,
-          :workspace => scheme_obj.workspace,
-        }
+        scheme_info_dict
       end
 
       #####################################################
@@ -49,14 +43,6 @@ module Fastlane
                                        optional: true,
                                        verify_block: proc do |value|
                                          UI.warn("No .xcworkspace path") unless (value and not value.empty?)
-                                         # UI.user_error!("Couldn't find file at path '#{value}'") unless File.exist?(value)
-                                       end),
-          FastlaneCore::ConfigItem.new(key: :scheme,
-                                       description: "scheme name", # a short description of this parameter
-                                       optional: false,
-                                       type: String,
-                                       verify_block: proc do |value|
-                                         UI.user_error!("Analysis workspace need scheme name") unless (value and not value.empty?)
                                          # UI.user_error!("Couldn't find file at path '#{value}'") unless File.exist?(value)
                                        end),
         ]

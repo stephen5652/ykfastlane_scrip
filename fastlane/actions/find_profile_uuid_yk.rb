@@ -4,16 +4,11 @@ require_relative '../action_tools_yk/YKProfileTools'
 module Fastlane
   module Actions
 
-    class FindProfileYkAction < Action
+    class FindProfileUuidYkAction < Action
 
       def self.run(params)
-        puts("find profile for:#{params.values}")
-        yml = YKProfileModule::YKProfileEnv.load_profile_yml()
-        if yml[params[:bundle_identifier]] == nil
-          return {}
-        end
-
-        result = yml[params[:bundle_identifier]][params[:export_method]]
+        puts("find profile uuid for:#{params.values}")
+        result = YKProfileModule::YKProfileEnv.find_archive_profile_uuid(params[:bundle_identifier], params[:export_method])
         return result == nil ? {} : result
       end
 
@@ -22,11 +17,11 @@ module Fastlane
       #####################################################
 
       def self.description
-        "根据配置，寻找profile"
+        "根据配置，寻找profile uuid"
       end
 
       def self.details
-        "根据默认配置，寻找到对应的profile"
+        "根据默认配置，寻找到对应的profile uuid"
       end
 
       def self.available_options

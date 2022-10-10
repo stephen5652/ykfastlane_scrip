@@ -38,7 +38,7 @@ module Fastlane
             sensitive_command = command.gsub(password_part, " -p ********")
             puts "tf command:#{sensitive_command}"
           end
-        ).chomp
+        )
 
         puts "test flight shell return:#{shell_result}"
         puts "test flight finish code:#{command_result}"

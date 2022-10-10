@@ -13,17 +13,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### list_profile_configs
-
-```sh
-[bundle exec] fastlane list_profile_configs
-```
-
-
-    显示 profile 配置
-    参数: 无参数
-
-
 ### archive_pgyer
 
 ```sh
@@ -110,25 +99,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     command example: ykfastlane upload_ipa_to_tf ipa:"xxxx/xxx/xx.ipa" user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note"
 
 
-### yk_install_mobileprovision
-
-```sh
-[bundle exec] fastlane yk_install_mobileprovision
-```
-
-
-    安装mobileprovision 文件.
-    描述:
-    1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;
-    2. provision_files_enterprise 文件夹里面放置所有的描述文件;
-    3. 该指令需要在provision_files_enterprise文件夹的上级的根目录执行.
-
-    参数:
-    profile_path: [必需] profile 文件绝对路径
-
-    command example: ykfastlane yk_install_mobileprovision profile_path:"xxxxx"
-
-
 ### re_upload_pgyer
 
 ```sh
@@ -201,6 +171,51 @@ private lane, cannot be used. Just used for developing to testing some action.
         wx_notice_token：[可选] 企业微信机器人 webhook中的key字段
         msg_title: [可选] 微信消息标题
         notice_message: [可选] 微信消息内容
+
+
+### sync_apple_profile
+
+```sh
+[bundle exec] fastlane sync_apple_profile
+```
+
+
+  同步苹果开发者后台数据
+      参数：
+        user_name：apple account
+        password: apple account password
+        bundle_ids： bundle identifier array, used "," to separate each.
+        workspace: workspace path
+
+
+### list_profile_configs
+
+```sh
+[bundle exec] fastlane list_profile_configs
+```
+
+
+    显示 profile 配置
+    参数: 无参数
+
+
+### yk_install_mobileprovision
+
+```sh
+[bundle exec] fastlane yk_install_mobileprovision
+```
+
+
+    安装mobileprovision 文件.
+    描述:
+    1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;
+    2. provision_files_enterprise 文件夹里面放置所有的描述文件;
+    3. 该指令需要在provision_files_enterprise文件夹的上级的根目录执行.
+
+    参数:
+    profile_path: [必需] profile 文件绝对路径
+
+    command example: ykfastlane yk_install_mobileprovision profile_path:"xxxxx"
 
 
 ----
