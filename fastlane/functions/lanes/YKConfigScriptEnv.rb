@@ -66,10 +66,7 @@ lane :sync_apple_profile do |options|
   end
 
   if workspace.blank? == false
-    all_scheme_info = analysis_xcode_workspace_yk(
-      xcworkspace: workspace,
-      )
-
+    all_scheme_info = analysis_xcode_workspace_yk( xcworkspace: workspace)
     all_scheme_info.each_pair do |k, v|
       arr = v[:bundle_identifiers]
       bundle_id_set = bundle_id_set | arr
@@ -84,24 +81,12 @@ lane :sync_apple_profile do |options|
   bundle_id_set = bundle_id_set | bundle_arr
 
   bundle_ids_str = Array(bundle_id_set).join(",")
-  if bundle_ids_str.blank?
-    # 调试代码
-    dest_bundle_arr = [
-      "com.Isale.cn.YKLeXiangBan",
-      "com.yeahka.agent",
-      "com.lsale.cn.LSsaleChainForIpad",
-      "com.topsida.lyl",
-      "com.YeahKa.KuaiFuBa",
-    ]
-    bundle_ids_str = dest_bundle_arr.join(',')
-  end
-
 
   # bundle_ids_str = ""
   profile_info_arr = sync_apple_server_profiles_yk(
-  user_name: options[:user_name].blank? ?  "" :  options[:user_name],
-  password: options[:password].blank? ? "" :  options[:password],
-  bundle_ids: bundle_ids_str
+    user_name: options[:user_name].blank? ? "" : options[:user_name],
+    password: options[:password].blank? ? "" : options[:password],
+    bundle_ids: bundle_ids_str
   )
 end
 
@@ -115,24 +100,26 @@ lane :list_profile_configs do |options|
 end
 
 desc "" "
-    安装mobileprovision 文件.
-    描述:
-    1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;
-    2. provision_files_enterprise 文件夹里面放置所有的描述文件;
-    3. 该指令需要在provision_files_enterprise文件夹的上级的根目录执行.
-
+    安装p12
     参数:
-    profile_path: [必需] profile 文件绝对路径
-
-    command example: ykfastlane yk_install_mobileprovision profile_path:\"xxxxx\"
+    password: p12 密码
+    cer_path: p12 文件绝对路径
 " ""
-lane :yk_install_mobileprovision do |options|
-  Fastlane::UI.important("yk_install_mobileprovision options:#{options}")
-  running_path = options[:script_run_path]
-  profile_path = options[:profile_path]
-  if profile_path.include?(running_path) == false
-    profile_path = File.expand_path(File.join(running_path, profile_path))
-  end
-  analysis_mobileprofile_yk(profile_path: profile_path)
+
+lane :update_certificate_p12 do |options|
+  password = options[:password]
+  file_path = File.expand_path(options[:cer_path])
+  install_certificate_p12_yk(file_path: file_path, password: password)
+end
+
+desc """
+    同步git仓库中的 certificate & profile, 如果未传入git_remote_url，则执行git pull； 否则,覆盖原有的profile & certificate
+    参数:
+    remote_url: profile & certificate
+"""
+
+lane :sync_certificate_profile do |options|
+  remote = options[:remote_url]
+  sync_certificate_and_profile_yk(remote_url: remote)
 end
 

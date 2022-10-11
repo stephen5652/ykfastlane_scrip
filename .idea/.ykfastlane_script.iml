@@ -13,9 +13,9 @@
     <orderEntry type="jdk" jdkName="rbenv: 2.7.5" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="CFPropertyList (v3.0.5, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionpack (v6.0.6, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionview (v6.0.6, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activesupport (v6.0.6, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionpack (v5.2.8.1, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionview (v5.2.8.1, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activesupport (v5.2.8.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="admqr_knife (v0.1.5, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="algoliasearch (v1.27.5, rbenv: 2.7.5) [gem]" level="application" />
@@ -31,11 +31,11 @@
     <orderEntry type="library" scope="PROVIDED" name="babosa (v1.0.4, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="badge (v0.13.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.3.22, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.3.23, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="chunky_png (v1.4.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="claide (v1.1.0, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="cocoapods (v1.11.3, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="cocoapods-core (v1.11.3, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cocoapods (v1.10.2, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cocoapods-core (v1.10.2, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cocoapods-deintegrate (v1.0.5, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cocoapods-downloader (v1.6.3, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cocoapods-plugins (v1.0.0, rbenv: 2.7.5) [gem]" level="application" />
@@ -108,9 +108,8 @@
     <orderEntry type="library" scope="PROVIDED" name="mime-types-data (v3.2022.0105, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_magick (v4.11.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.2, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.8.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.16.3, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="molinillo (v0.8.0, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="molinillo (v0.6.6, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.15.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multipart-post (v2.0.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nanaimo (v0.3.0, rbenv: 2.7.5) [gem]" level="application" />
@@ -123,13 +122,13 @@
     <orderEntry type="library" scope="PROVIDED" name="os (v1.1.4, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="plist (v3.6.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="podspec_editor (v0.4.0, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="public_suffix (v4.0.7, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="public_suffix (v5.0.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="racc (v1.6.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.2.4, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v2.0.2, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.0.3, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.4.3, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="railties (v6.0.6, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="railties (v5.2.8.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.6, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rchardet (v1.8.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="representable (v3.2.0, rbenv: 2.7.5) [gem]" level="application" />
@@ -139,7 +138,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rouge (v2.0.7, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rqrcode (v0.10.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-debug-ide (v0.7.3, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="ruby-macho (v2.5.1, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby-macho (v1.4.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby2_keywords (v0.0.5, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby_android_apk (v0.7.7.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.3.2, rbenv: 2.7.5) [gem]" level="application" />
@@ -166,6 +165,5 @@
     <orderEntry type="library" scope="PROVIDED" name="xcpretty (v0.3.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xcpretty-travis-formatter (v1.0.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="yaml (v0.2.0, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.6.1, rbenv: 2.7.5) [gem]" level="application" />
   </component>
 </module>

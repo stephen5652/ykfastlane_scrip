@@ -117,6 +117,7 @@ module YKProfileModule
 
     # Installs a provisioning profile for Xcode to use
     def self.install(path, keychain_path = nil)
+      puts("\n")
       Fastlane::UI.important("Installing provisioning profile:#{path}")
       destination = File.join(self.profiles_path, self.profile_filename(path, keychain_path))
       Fastlane::UI.important("destination:#{destination}")
