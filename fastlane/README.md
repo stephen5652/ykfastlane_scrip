@@ -224,6 +224,16 @@ private lane, cannot be used. Just used for developing to testing some action.
     remote_url: profile & certificate
 
 
+### list_profile_certificate_config
+
+```sh
+[bundle exec] fastlane list_profile_certificate_config
+```
+
+
+    显示 profile & certificate 配置和文件信息
+
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

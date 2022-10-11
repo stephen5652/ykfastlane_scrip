@@ -123,3 +123,10 @@ lane :sync_certificate_profile do |options|
   sync_certificate_and_profile_yk(remote_url: remote)
 end
 
+desc """
+    显示 profile & certificate 配置和文件信息
+"""
+lane :list_profile_certificate_config do |options|
+  certificate_profile_list_detail_yk()
+end
+

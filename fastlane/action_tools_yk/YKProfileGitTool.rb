@@ -161,6 +161,10 @@ module YKProfileModule
       remote_url
     end
 
+    def self.get_profile_certificate_git_info()
+      YKYmlModule.load_yml_yk(YKProfileGitHelper::YK_CONFIG_GIT_YAML)
+    end
+
     def self.get_certificate_info_dict()
       YKYmlModule.load_yml_yk(YKProfileGitHelper::YK_CONFIG_INFO_YML_CERTIFICATE)
     end
