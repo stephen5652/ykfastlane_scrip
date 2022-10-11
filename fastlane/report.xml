@@ -5,12 +5,12 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.010254">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.008737">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: install_certificate_p12_yk" time="1.723635">
+      <testcase classname="fastlane.lanes" name="1: sync_certificate_and_profile_yk" time="0.644628">
         
       </testcase>
     

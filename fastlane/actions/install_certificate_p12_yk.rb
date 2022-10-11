@@ -16,7 +16,7 @@ module Fastlane
         YKProfileModule::YKCertificateP12Execute.install_one_certificate(file_path, password)
         info = YKProfileModule::YKCertificateP12Execute.analysis_p12(file_path, password)
 
-        YKProfileModule::YKProfileGitExecute.update_profile_info(name, info)
+        YKProfileModule::YKProfileGitExecute.update_certificate_info(name, info)
         YKProfileModule::YKProfileGitExecute.git_commit("Add certificate:#{name}")
       end
 

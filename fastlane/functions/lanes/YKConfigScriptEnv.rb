@@ -66,10 +66,7 @@ lane :sync_apple_profile do |options|
   end
 
   if workspace.blank? == false
-    all_scheme_info = analysis_xcode_workspace_yk(
-      xcworkspace: workspace,
-    )
-
+    all_scheme_info = analysis_xcode_workspace_yk( xcworkspace: workspace)
     all_scheme_info.each_pair do |k, v|
       arr = v[:bundle_identifiers]
       bundle_id_set = bundle_id_set | arr
@@ -84,17 +81,6 @@ lane :sync_apple_profile do |options|
   bundle_id_set = bundle_id_set | bundle_arr
 
   bundle_ids_str = Array(bundle_id_set).join(",")
-  if bundle_ids_str.blank?
-    # 调试代码
-    dest_bundle_arr = [
-      "com.Isale.cn.YKLeXiangBan",
-      "com.yeahka.agent",
-      "com.lsale.cn.LSsaleChainForIpad",
-      "com.topsida.lyl",
-      "com.YeahKa.KuaiFuBa",
-    ]
-    bundle_ids_str = dest_bundle_arr.join(',')
-  end
 
   # bundle_ids_str = ""
   profile_info_arr = sync_apple_server_profiles_yk(
@@ -127,11 +113,13 @@ lane :update_certificate_p12 do |options|
 end
 
 desc """
-    同步git仓库中的 certificate & profile
-    参数: 无参数
+    同步git仓库中的 certificate & profile, 如果未传入git_remote_url，则执行git pull； 否则,覆盖原有的profile & certificate
+    参数:
+    remote_url: profile & certificate
 """
 
 lane :sync_certificate_profile do |options|
-
+  remote = options[:remote_url]
+  sync_certificate_and_profile_yk(remote_url: remote)
 end
 

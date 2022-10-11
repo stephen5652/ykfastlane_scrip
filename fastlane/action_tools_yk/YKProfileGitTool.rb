@@ -22,6 +22,27 @@ module YKProfileModule
       name
     end
 
+    def self.keychain_path(keychain_name)
+      name = keychain_name.sub(/\.keychain$/, "")
+      possible_locations = [
+        File.join(Dir.home, 'Library', 'Keychains', name),
+        name
+      ].map { |path| File.expand_path(path) }
+
+      # Transforms ["thing"] to ["thing-db", "thing.keychain-db", "thing", "thing.keychain"]
+      keychain_paths = []
+      possible_locations.each do |location|
+        keychain_paths << "#{location}-db"
+        keychain_paths << "#{location}.keychain-db"
+        keychain_paths << location
+        keychain_paths << "#{location}.keychain"
+      end
+
+      keychain_path = keychain_paths.find { |path| File.file?(path) }
+      UI.user_error!("Could not locate the provided keychain. Tried:\n\t#{keychain_paths.join("\n\t")}") unless keychain_path
+      keychain_path
+    end
+
   end
 
   require 'fastlane'
@@ -52,22 +73,29 @@ module YKProfileModule
       YKYmlModule.update_yml_yk(path, name, info)
     end
 
-    def self.load_profile_remote(remote)
+    def self.load_profile_remote()
+      remote = self.get_profile_env_git_remote
+      if remote.blank?
+        Fastlane::UI.important("Not config profile & certificate remote")
+        return false
+      end
+
       dest_path = YKProfileGitHelper::YK_CONFIG_PROFILE_LOCAL_ROOT_DIR
       if File.exist?(dest_path)
         Fastlane::UI.important("Local Path existed, remove it first:#{dest_path}")
-        FileUtils.rm(dest_path, force: true)
+        FileUtils.rm_r(dest_path, force: true)
       end
 
       begin
-        puts "start clone:#{remote}"
+        Fastlane::UI.message("start clone:#{remote}")
         cloneResult = Git::clone(remote, dest_path, :log => Logger.new(Logger::Severity::INFO))
         puts "clone_result:#{cloneResult}"
       rescue Git::GitExecuteError => e
-        puts "clone failed:#{e}"
+        Fastlane::UI.message("clone failed:#{e}")
         return false #任务失败
       end
 
+      Fastlane::UI.message("Clone success !!")
       return true
     end
 
@@ -79,6 +107,12 @@ module YKProfileModule
 
     def self.sync_profile_remote()
       path = YKProfileGitHelper::YK_CONFIG_PROFILE_LOCAL_ROOT_DIR
+
+      if File.exist?(path) == false
+        return self.load_profile_remote()
+      end
+
+      Fastlane::UI.important("Git pull certificate & profile")
       begin
         git = Git::open(path)
         git.add()
@@ -90,6 +124,7 @@ module YKProfileModule
         return false #任务失败
       end
 
+      Fastlane::UI.message("Git pull certificate & profile successfully")
       return true
     end
 
@@ -135,6 +170,7 @@ module YKProfileModule
     end
 
     def self.get_profile_path(info)
+      name = info[:file_name]
       return "" if name.blank?
       path = File.expand_path(File.join(YKProfileGitHelper::YK_CONFIG_PROFILE_LOCAL_DIR, name))
       path = "" unless File.exist?(path)
@@ -168,14 +204,14 @@ module YKProfileModule
         :cn => cn,
         :uid => uid,
         K_CER_INFO_KEY_NAME => file_name,
-        K_CER_INFO_KEY_PASSWORD => cer_path,
+        K_CER_INFO_KEY_PASSWORD => cer_pass,
       }
       result
     end
 
-    def self.install_one_certificate(path, password)
+    def self.install_one_certificate(file_path, password)
       password_part = " -P #{password}"
-      command = "security import #{file_path} -k #{CerHelper.keychain_path("login")}"
+      command = "security import #{file_path} -k #{YKProfileGitHelper.keychain_path("login")}"
       command << password_part
       command << " -T /usr/bin/codesign" # to not be asked for permission when running a tool like `gym` (before Sierra)
       command << " -T /usr/bin/security"
@@ -183,7 +219,8 @@ module YKProfileModule
       command << " -T /usr/bin/productsign" # to not be asked for permission when using an installer cert for macOS
 
       sensitive_command = command.gsub(password_part, " -P ********")
-      Fastlane::UI.important(sensitive_command)
+      puts("\n")
+      Fastlane::UI.message("install_certificate:#{sensitive_command}")
       Open3.popen3(command) do |stdin, stdout, stderr, thrd|
         Fastlane::UI.important(stdout.read.to_s)
 
@@ -202,7 +239,7 @@ module YKProfileModule
       end
     end
 
-    def self.install_cers(map)
+    def self.install_certificates_info_map(map)
       map.each do |key, info|
         file_path = File.join(YKProfileGitHelper::YK_CONFIG_CERTIFICATE_LOCAL_DIR, info[K_CER_INFO_KEY_NAME])
         password = info[K_CER_INFO_KEY_PASSWORD]

@@ -199,17 +199,29 @@ private lane, cannot be used. Just used for developing to testing some action.
     参数: 无参数
 
 
-### install_certificate_p12
+### update_certificate_p12
 
 ```sh
-[bundle exec] fastlane install_certificate_p12
+[bundle exec] fastlane update_certificate_p12
 ```
 
 
     安装p12
     参数:
     password: p12 密码
-    file_path: p12 文件绝对路径
+    cer_path: p12 文件绝对路径
+
+
+### sync_certificate_profile
+
+```sh
+[bundle exec] fastlane sync_certificate_profile
+```
+
+
+    同步git仓库中的 certificate & profile, 如果未传入git_remote_url，则执行git pull； 否则,覆盖原有的profile & certificate
+    参数:
+    remote_url: profile & certificate
 
 
 ----

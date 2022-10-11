@@ -12,16 +12,23 @@ module Fastlane
 
       def self.run(params)
         puts("params:#{params.values}")
-        Fastlane::UI.user_error!("Not existed profile and certificate, you should config these first") unless YKProfileModule::YKProfileGitExecute.existed_profile_certificate()
+        remote_url = params[:remote_url]
 
-        result = YKProfileModule::YKProfileGitExecute.sync_profile_remote()
-        Fastlane::UI.user_error!("Sync profile remote failed") unless remote.blank?
+        result = true
+        if remote_url.blank? == false #删除原来的profile & certificate, 重新下载
+          YKProfileModule::YKProfileGitExecute.update_profile_env_git_info(remote_url)
+          result = YKProfileModule::YKProfileGitExecute.load_profile_remote()
+        else
+          YKProfileModule::YKProfileGitExecute.sync_profile_remote()
+        end
+
+        Fastlane::UI.user_error!("Sync profile remote failed") unless result == true
 
         profile_dict = YKProfileModule::YKProfileGitExecute.get_profile_info_dict()
 
         if profile_dict != nil
           profile_dict.each_pair do |name, info|
-            path = YKProfileModule::YKProfileGitExecute.get_profile_path(name)
+            path = YKProfileModule::YKProfileGitExecute.get_profile_path(info)
             if path.blank?
               Fastlane::UI.important("Not install profile[#{name}], since cannot find it.")
               next
@@ -35,7 +42,7 @@ module Fastlane
 
         cer_dict = YKProfileModule::YKProfileGitExecute.get_certificate_info_dict()
         if cer_dict != nil
-          YKProfileModule::YKCertificateP12Execute.install_cers(cer_dict)
+          YKProfileModule::YKCertificateP12Execute.install_certificates_info_map(cer_dict)
         else
           Fastlane::UI.important("No certificate p12 found")
         end
@@ -54,14 +61,15 @@ module Fastlane
         # Define all options your action supports.
 
         # Below a few examples
-        # [
-        #   FastlaneCore::ConfigItem.new(key: :password,
-        #                                description: "Password for certificate p12 file", # a short description of this parameter
-        #                                verify_block: proc do |value|
-        #                                  UI.user_error!("No password for certificate p12 file. Pass using `password: 'password'`") unless (value and not value.empty?)
-        #                                  # UI.user_error!("Couldn't find file at path '#{value}'") unless File.exist?(value)
-        #                                end),
-        # ]
+        [
+          FastlaneCore::ConfigItem.new(key: :remote_url,
+                                       description: "Profile & certificate git remote url", # a short description of this parameter
+                                       optional: true,
+                                       verify_block: proc do |value|
+                                         UI.important("No git remote url, we just pull or clone the existed url") unless (value and not value.empty?)
+                                         # UI.user_error!("Couldn't find file at path '#{value}'") unless File.exist?(value)
+                                       end),
+        ]
       end
 
       def self.return_value
