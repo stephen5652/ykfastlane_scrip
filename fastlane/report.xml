@@ -5,17 +5,12 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000695">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.010254">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: analysis_xcode_workspace_yk" time="0.117081">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="2: sync_apple_server_profiles_yk" time="17.566676">
+      <testcase classname="fastlane.lanes" name="1: install_certificate_p12_yk" time="1.723635">
         
       </testcase>
     

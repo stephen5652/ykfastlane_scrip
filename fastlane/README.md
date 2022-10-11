@@ -199,23 +199,17 @@ private lane, cannot be used. Just used for developing to testing some action.
     参数: 无参数
 
 
-### yk_install_mobileprovision
+### install_certificate_p12
 
 ```sh
-[bundle exec] fastlane yk_install_mobileprovision
+[bundle exec] fastlane install_certificate_p12
 ```
 
 
-    安装mobileprovision 文件.
-    描述:
-    1.需要创建一个git仓库, 仓库中有一个 provision_files_enterprise 文件夹;
-    2. provision_files_enterprise 文件夹里面放置所有的描述文件;
-    3. 该指令需要在provision_files_enterprise文件夹的上级的根目录执行.
-
+    安装p12
     参数:
-    profile_path: [必需] profile 文件绝对路径
-
-    command example: ykfastlane yk_install_mobileprovision profile_path:"xxxxx"
+    password: p12 密码
+    file_path: p12 文件绝对路径
 
 
 ----

@@ -15,11 +15,10 @@ module Fastlane
       def self.run(params)
         puts("params:#{params.values}")
 
-        #调试代码
-        user = params[:user_name].blank? ? "stephen5652@126.com" : params[:user_name]
-        password = params[:password].blank? ? "CXX565289910cxx" : params[:password]
-
+        user = params[:user_name]
+        password = params[:password]
         bundle_ids = params[:bundle_ids]
+
         result = YKAppleModule::AccountHelper::AccountClient.login(user, password)
         bundle_ids_str = params[:bundle_ids]
         bundle_ids_arr = bundle_ids.split(",")
@@ -38,13 +37,18 @@ module Fastlane
 
       def self.install_catch_profiles(path_arr)
         all_info_dict = {}
+        name_arr = []
         path_arr.each do |one|
           name = YKProfileModule::YKProfileGitExecute.add_profile(one)
           info = YKProfileModule::YKProfileEnv.analysisProfile(one)
           info[:file_name] = name
           YKProfileModule::YKProfileGitExecute.update_profile_info(name, info)
           YKProfileModule::YKProfileEnv.install_one_profile(one)
+          name_arr.append(name)
         end
+
+        name_arr_str = name_arr.join(",")
+        YKProfileModule::YKProfileGitExecute.git_commit("Add profiles \"#{name_arr_str}\"")
       end
 
       def self.available_options
@@ -55,12 +59,12 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :user_name,
                                        description: "Syncroise apple server profile exported user name", # a short description of this parameter
                                        verify_block: proc do |value|
-                                         UI.important("No user_name") unless (value and not value.empty?)
+                                         UI.user_error!("No user_name") unless (value and not value.empty?)
                                        end),
           FastlaneCore::ConfigItem.new(key: :password,
                                        description: "Syncroise apple server profile exported password", # a short description of this parameter
                                        verify_block: proc do |value|
-                                         UI.important("No password") unless (value and not value.empty?)
+                                         UI.user_error!("No password") unless (value and not value.empty?)
                                        end),
           FastlaneCore::ConfigItem.new(key: :bundle_ids,
                                        optional: true,
