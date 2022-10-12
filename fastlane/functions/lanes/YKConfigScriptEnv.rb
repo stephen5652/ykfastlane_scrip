@@ -76,11 +76,15 @@ lane :sync_apple_profile do |options|
     end
   end
 
-  bundle_ids_para_str = options[:bundle_ids]
-  bundle_arr = bundle_ids_para_str.split(",")
-  bundle_id_set = bundle_id_set | bundle_arr
 
-  bundle_ids_str = Array(bundle_id_set).join(",")
+  bundle_ids_para_str = options[:bundle_ids]
+  if bundle_ids_para_str.blank? == false
+    bundle_arr = bundle_ids_para_str.split(",")
+    bundle_id_set = bundle_id_set | bundle_arr
+  end
+
+  bundle_ids_str = ""
+  bundle_ids_str = Array(bundle_id_set).join(",") unless bundle_id_set.empty? == false
 
   # bundle_ids_str = ""
   profile_info_arr = sync_apple_server_profiles_yk(
