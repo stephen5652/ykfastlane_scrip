@@ -40,10 +40,10 @@ module Fastlane
         name_arr = []
         path_arr.each do |one|
           name = YKProfileModule::YKProfileGitExecute.add_profile(one)
-          info = YKProfileModule::YKProfileEnv.analysisProfile(one)
+          info = YKProfileModule::YKProfileEnv.install_one_profile(one)
           info[:file_name] = name
           YKProfileModule::YKProfileGitExecute.update_profile_info(name, info)
-          YKProfileModule::YKProfileEnv.install_one_profile(one)
+
           name_arr.append(name)
         end
 

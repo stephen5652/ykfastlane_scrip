@@ -1,4 +1,5 @@
 require_relative '../action_tools_yk/YKProfileTools'
+require_relative '../action_tools_yk/YKProfileGitTool'
 
 module Fastlane
   module Actions
@@ -8,34 +9,33 @@ module Fastlane
 
     class AnalysisMobileprofileYkAction < Action
       include YKProfileModule::YKProfileEnv
+      include YKProfileModule::YKProfileGitExecute
 
       def self.run(params)
         Fastlane::UI.important("paramas:#{params.values}")
         profile_str = params[:profile_path]
         arr = profile_str.split(",")
+        name_arr = []
         arr.each do |profile|
           if File.exist?(profile) == false
             Fastlane::UI.important("Profile not existed: #{profile}")
             next
           end
 
-          self.install_one_profile(profile)
+          name = self.install_one_profile(profile)
+          name_arr << File.basename(name)
         end
+
+        msg = name_arr.join(", ")
+        YKProfileModule::YKProfileGitExecute.git_commit("Update profiles: #{msg}")
       end
 
       def self.install_one_profile(profile)
-        YKProfileModule::YKProfileEnv.install_profiles([profile])
-        info = YKProfileModule::YKProfileEnv.analysisProfile(profile)
-        puts("profile_info:#{info}")
-        elements = info["Entitlements"]
-        bundle_id = elements["application-identifier"]
-        bundle_id_prefix_arr = info["ApplicationIdentifierPrefix"]
-        bundle_id_prefix_arr.each do |one|
-          bundle_id = bundle_id.gsub("#{one}.", "")
-        end
-        uuid = info["UUID"]
-        method = info["method_type"]
-        YKProfileModule::YKProfileEnv.update_archive_profile_info(uuid, method, bundle_id)
+        name = YKProfileModule::YKProfileGitExecute.add_profile(profile)
+        info = YKProfileModule::YKProfileEnv.install_one_profile(profile)
+        info[:file_name] = name
+        YKProfileModule::YKProfileGitExecute.update_profile_info(name, info)
+        name
       end
 
       def self.description

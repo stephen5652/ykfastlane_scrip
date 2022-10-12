@@ -166,6 +166,9 @@ module YKProfileModule
         YKProfileEnv.install(profile_path, self.keychain_path("login"))
         info = self.analysisProfile(profile_path)
         self.update_archive_profile_info_from_info(info)
+        info
+      else
+        {}
       end
     end
 

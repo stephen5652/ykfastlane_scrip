@@ -129,6 +129,8 @@ module YKProfileModule
     end
 
     def self.git_commit(msg)
+      puts("\n")
+      Fastlane::UI.important("Git start commit")
       path = YKProfileGitHelper::YK_CONFIG_PROFILE_LOCAL_ROOT_DIR
       git = Git::open(path)
       git.add()
@@ -144,8 +146,15 @@ module YKProfileModule
         puts "git not clean, work failed"
         return false
       else
-        puts "git clean, work success"
-        git.push('origin', curbranch)
+        puts "git clean, start push"
+
+        begin
+          git.push('origin', curbranch)
+        rescue Git::GitExecuteError => e
+          puts "git push execption:#{e}"
+        end
+
+        Fastlane::UI.important("Git push successfully")
         return true
       end
     end

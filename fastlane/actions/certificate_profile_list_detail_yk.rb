@@ -21,6 +21,7 @@ module Fastlane
         Fastlane::UI.important("profile_certificate_git_info:#{info_git.to_json}\n")
         Fastlane::UI.important("certificate_files_info:#{info_certificates.to_json}\n")
         Fastlane::UI.important("profile_files_info:#{info_profiles.to_json}\n")
+        Fastlane::UI.important("profile_files_archive_info:#{info_archive_profile.to_json}\n")
       end
 
       def self.description
