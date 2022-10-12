@@ -75,7 +75,7 @@
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.22.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.1.2.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="plist (v3.6.0, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="public_suffix (v5.0.0, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="public_suffix (v4.0.7, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rainbow (v3.1.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.6, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.5.0, rbenv: 2.7.5) [gem]" level="application" />

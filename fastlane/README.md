@@ -188,6 +188,18 @@ private lane, cannot be used. Just used for developing to testing some action.
         workspace: workspace path
 
 
+### update_profiles
+
+```sh
+[bundle exec] fastlane update_profiles
+```
+
+
+    更新多个profile
+    参数:
+    profile_path: profile文件绝对路径，如果有多个，使用 , 隔开
+
+
 ### list_profile_configs
 
 ```sh

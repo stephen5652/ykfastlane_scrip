@@ -27,7 +27,7 @@ module YKProfileModule
             1.1 get_task_allow => true  --> development
             1.2 get_task_allow => false ---> ad-hoc
         2. ProvisionsAllDevices => true ---> enterprise
-        3.  ---> appstore
+        3.  ---> apps-tore
         ' ''
       result = ""
       devices = plist_content["ProvisionedDevices"]
@@ -45,7 +45,7 @@ module YKProfileModule
         if all_devices != nil && all_devices == true
           result = "enterprise"
         else
-          result = "appstore"
+          result = "app-store"
         end
       end
 

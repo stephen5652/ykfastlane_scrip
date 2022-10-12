@@ -90,6 +90,29 @@ lane :sync_apple_profile do |options|
   )
 end
 
+desc """
+    更新多个profile
+    参数:
+    profile_path: profile文件绝对路径，如果有多个，使用 , 隔开""
+"""
+
+lane :update_profiles do |options|
+  puts("options:#{options}")
+  para = options[:profile_path]
+  arr_1 = []
+  if para.blank? == false
+    arr = para.split(",")
+    Dir.chdir(options[:script_run_path]) do
+      arr.each do |one|
+        arr_1.append(File.expand_path(one))
+      end
+    end
+  end
+  str = ""
+  str = arr_1.join(",") unless arr_1.count == 0
+  analysis_mobileprofile_yk(profile_path: str)
+end
+
 desc "" "
     显示 profile 配置
     参数: 无参数
@@ -107,8 +130,12 @@ desc "" "
 " ""
 
 lane :update_certificate_p12 do |options|
+
   password = options[:password]
   file_path = File.expand_path(options[:cer_path])
+  Dir.chdir(options[:script_run_path]) do
+    file_path = File.expand_path(file_path)
+  end
   install_certificate_p12_yk(file_path: file_path, password: password)
 end
 

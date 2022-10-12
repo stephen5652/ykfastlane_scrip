@@ -11,9 +11,20 @@ module Fastlane
 
       def self.run(params)
         Fastlane::UI.important("paramas:#{params.values}")
-        profile = params[:profile_path]
-        YKProfileModule::YKProfileEnv.install_profiles([profile])
+        profile_str = params[:profile_path]
+        arr = profile_str.split(",")
+        arr.each do |profile|
+          if File.exist?(profile) == false
+            Fastlane::UI.important("Profile not existed: #{profile}")
+            next
+          end
 
+          self.install_one_profile(profile)
+        end
+      end
+
+      def self.install_one_profile(profile)
+        YKProfileModule::YKProfileEnv.install_profiles([profile])
         info = YKProfileModule::YKProfileEnv.analysisProfile(profile)
         puts("profile_info:#{info}")
         elements = info["Entitlements"]
