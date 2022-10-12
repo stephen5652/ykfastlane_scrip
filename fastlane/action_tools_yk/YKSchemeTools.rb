@@ -8,8 +8,9 @@ module YKXcode
     attr_accessor :name, :project, :workspace, :scheme_path, :buildableName, :print_name, :archive_configuration, :bundle_identifiers
 
     def initialize
-      @name, @project, @workspace, @scheme_path, @buildableName, @print_name, @archive_configuration = ""
-      @bundle_identifiers = []
+      @name, @project, @workspace, @scheme_path, @archive_configuration = ""
+      @bundle_identifiers, @buildableName = []
+      @print_name = []
     end
 
     def to_json(*a)
@@ -72,13 +73,19 @@ module YKXcode
       file = File.new(scheme_path)
       scheme_data = REXML::Document.new(file)
       scheme_info = {}
-      XPath.each(scheme_data, '//LaunchAction/BuildableProductRunnable/BuildableReference').each do |build|
+
+      buildableName_arr = []
+      print_name_arr = []
+      XPath.each(scheme_data, '//BuildAction/BuildActionEntries/BuildActionEntry/BuildableReference').each do |build|
         #REXML::Attributes
         puts("one build:#{build.attributes}")
         att_dict = build.attributes
-        scheme_info[:buildableName] = att_dict["BuildableName"]
-        scheme_info[:print_name] = att_dict["BlueprintName"]
+        buildableName_arr << att_dict["BuildableName"]
+        print_name_arr << att_dict["BlueprintName"]
       end
+
+      scheme_info[:buildableName] = buildableName_arr
+      scheme_info[:print_name] = print_name_arr
 
       XPath.each(scheme_data, '//ArchiveAction').each do |archive|
         scheme_info[:archive_configuration] = archive["buildConfiguration"]
@@ -114,13 +121,13 @@ module YKXcode
     def self.bundle_ids_to_one_scheme_info(scheme_info)
 
       project_path = scheme_info[:project_path]
-      print_name = scheme_info[:print_name]
+      print_name_arr = scheme_info[:print_name]
       scheme_name = scheme_info[:scheme_name]
       archive_configuration = scheme_info[:archive_configuration]
 
       project_obj = Xcodeproj::Project.open(project_path)
       target_arr = project_obj.targets.select do |one|
-        one.name == print_name
+        print_name_arr.include?(one.name)
       end
       Fastlane::UI.user_error!("not found scheme[#{scheme_name}] target[#{print_name}] for project:#{project_path}") if target_arr.blank?
 
