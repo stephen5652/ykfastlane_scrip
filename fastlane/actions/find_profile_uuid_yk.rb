@@ -9,6 +9,8 @@ module Fastlane
       def self.run(params)
         puts("find profile uuid for:#{params.values}")
         result = YKProfileModule::YKProfileEnv.find_archive_profile_uuid(params[:bundle_identifier], params[:export_method])
+
+        Fastlane::UI.important("Find uuid result:#{result}")
         return result == nil ? {} : result
       end
 
