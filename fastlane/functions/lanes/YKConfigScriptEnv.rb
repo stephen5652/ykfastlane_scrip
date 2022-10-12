@@ -84,7 +84,7 @@ lane :sync_apple_profile do |options|
   end
 
   bundle_ids_str = ""
-  bundle_ids_str = Array(bundle_id_set).join(",") unless bundle_id_set.empty? == false
+  bundle_ids_str = Array(bundle_id_set).join(",") unless bundle_id_set.empty?
 
   # bundle_ids_str = ""
   profile_info_arr = sync_apple_server_profiles_yk(
