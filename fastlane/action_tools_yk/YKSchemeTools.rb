@@ -129,7 +129,7 @@ module YKXcode
       target_arr = project_obj.targets.select do |one|
         print_name_arr.include?(one.name)
       end
-      Fastlane::UI.user_error!("not found scheme[#{scheme_name}] target[#{print_name}] for project:#{project_path}") if target_arr.blank?
+      Fastlane::UI.user_error!("not found scheme[#{scheme_name}] target[#{print_name_arr}] for project:#{project_path}") if target_arr.blank?
 
       filter_target_arr = Set[]
       target_arr.each do |target|
