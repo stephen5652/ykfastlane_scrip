@@ -144,13 +144,14 @@ lane :update_certificate_p12 do |options|
 end
 
 desc """
-    同步git仓库中的 certificate & profile, 如果未传入git_remote_url，则执行git pull； 否则,覆盖原有的profile & certificate
+    同步git仓库中的 certificate & profile, 如果未传入
+，则执行git pull； 否则,覆盖原有的profile & certificate
     参数:
-    remote_url: profile & certificate
+    profile_remote_url: profile & certificate
 """
 
 lane :sync_certificate_profile do |options|
-  remote = options[:remote_url]
+  remote = options[:profile_remote_url]
   sync_certificate_and_profile_yk(remote_url: remote)
 end
 
