@@ -13,14 +13,12 @@ module Fastlane
       def self.run(params)
         puts("params:#{params.values}")
         remote_url = params[:remote_url]
-
-        result = true
+        
         if remote_url.blank? == false #删除原来的profile & certificate, 重新下载
           YKProfileModule::YKProfileGitExecute.update_profile_env_git_info(remote_url)
-          result = YKProfileModule::YKProfileGitExecute.load_profile_remote()
-        else
-          YKProfileModule::YKProfileGitExecute.sync_profile_remote()
         end
+
+        result = YKProfileModule::YKProfileGitExecute.load_profile_remote()
 
         Fastlane::UI.user_error!("Sync profile remote failed") unless result == true
 
