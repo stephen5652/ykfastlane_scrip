@@ -200,7 +200,13 @@ module YKProfileModule
 
     def self.analysis_p12(cer_path, cer_pass)
       p12 = OpenSSL::PKCS12.new(File.read(cer_path), cer_pass)
+
+      OpenSSL::X509::Certificate
       cer = p12.certificate # OpenSSL::X509::Certificate
+      serial = cer.serial.to_s(16)
+      # OpenSSL::BN
+      not_before = cer.not_before.to_s
+      not_after = cer.not_after.to_s
       arr = cer.subject.to_a # OpenSSL::X509::Name
 
       uid = arr.select { |name, _, _| name == 'UID' }.first[1]
@@ -216,6 +222,9 @@ module YKProfileModule
         :ou => ou,
         :cn => cn,
         :uid => uid,
+        :serial => serial,
+        :not_before => not_before,
+        :not_after => not_after,
         K_CER_INFO_KEY_NAME => file_name,
         K_CER_INFO_KEY_PASSWORD => cer_pass,
       }

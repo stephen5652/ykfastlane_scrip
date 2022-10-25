@@ -23,7 +23,6 @@ def workfaild_yk(lane, exception, options)
 
   detail = "" "
   failed_lane: #{lane}
-  exception: #{exception}
   command: #{cmd}
   " ""
   Fastlane::UI.important("work_failed_yk: #{detail}")
