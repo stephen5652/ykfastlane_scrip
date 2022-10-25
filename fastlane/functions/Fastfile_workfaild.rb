@@ -21,8 +21,11 @@ def workfaild_yk(lane, exception, options)
   cmd_para = arr.join(" ")
   cmd << cmd_para
 
+  mac_user = Actions.sh("whoami")
+
   detail = "" "
   failed_lane: #{lane}
+  mac_user:#{mac_user}
   command: #{cmd}
   " ""
   Fastlane::UI.important("work_failed_yk: #{detail}")
