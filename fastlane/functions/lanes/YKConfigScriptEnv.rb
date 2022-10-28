@@ -102,6 +102,9 @@ desc """
 
 lane :update_profiles do |options|
   puts("options:#{options}")
+
+  sync_certificate_profile(options)
+
   para = options[:profile_path]
   arr_1 = []
   if para.blank? == false
@@ -134,6 +137,8 @@ desc "" "
 " ""
 
 lane :update_certificate_p12 do |options|
+
+  sync_certificate_profile(options)
 
   password = options[:password]
   file_path = File.expand_path(options[:cer_path])
