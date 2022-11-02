@@ -134,6 +134,8 @@ lane :clean_product_directory do |lane, options|
   YKArchiveModule::ArchiveInfo.clean_product_dir
 
   product_path = YKArchiveModule::Helper::YK_PRODUCT_ROOT_PATH
+  mac_user = Actions.sh("whoami")
+  
   detail = "" "
   lane: #{lane}
   mac_user:#{mac_user}
