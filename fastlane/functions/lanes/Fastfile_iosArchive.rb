@@ -137,9 +137,8 @@ lane :clean_product_directory do |lane, options|
   mac_user = Actions.sh("whoami")
   
   detail = "" "
-  lane: #{lane}
-  mac_user:#{mac_user}
-  product_directory:#{product_path}
+  mac_user: #{mac_user}
+  product_directory: #{product_path}
   " ""
   Fastlane::UI.important("clean product directory: #{detail}")
 

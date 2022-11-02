@@ -43,7 +43,7 @@ see: https://work.weixin.qq.com/api/doc/90000/90136/91770
         mark_down_content += "## commit_id: <font color=\"comment\">#{params[:commit_id]}</font>\n" unless params[:commit_id].blank?
         mark_down_content += "## commit_message: \"#{params[:commit_message]}\"\n" unless params[:commit_message].blank?
         mark_down_content += "## release_note: #{params[:release_note]}\n" unless params[:release_note].blank?
-        mark_down_content += "## detail: <font color=\"warning\">\n#{params[:msg_detail]}\n</font>" unless params[:msg_detail].blank?
+        mark_down_content += "## info: \n#{params[:msg_detail]}\n" unless params[:msg_detail].blank?
         # mark_down_content += "## detail:\n #{params[:msg_content]}\n" if params[:msg_content].blank? == false
 
         wx_paramas_markdown = {
