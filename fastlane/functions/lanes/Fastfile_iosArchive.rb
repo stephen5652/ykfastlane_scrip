@@ -125,6 +125,32 @@ lane :archive_tf do |options|
 end
 
 desc "" "
+   删除iOS打包产物文件夹
+   参数:
+   wxwork_access_token: [可选] 企业微信机器人
+" ""
+
+lane :clean_product_directory do |lane, options|
+  YKArchiveModule::ArchiveInfo.clean_product_dir
+
+  product_path = YKArchiveModule::Helper::YK_PRODUCT_ROOT_PATH
+  detail = "" "
+  lane: #{lane}
+  mac_user:#{mac_user}
+  product_directory:#{product_path}
+  " ""
+  Fastlane::UI.important("clean product directory: #{detail}")
+
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_notice_info("Clean product path", detail)
+  robot.token = YKArchiveConfig::Config.new.wx_access_token
+  if robot.has_token == false
+    Fastlane::UI.important("Notify message to wechat failed, since no token.")
+  else
+    wxwork_notifier_yk(robot.robot_message_body) unless robot.token.blank?
+  end
+end
+
+desc "" "
     上传TF,发送结果给企业微信群
     参数:
       ipa: [必需] ipa文件绝对路径

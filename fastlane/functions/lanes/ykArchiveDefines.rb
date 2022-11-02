@@ -27,6 +27,11 @@ module YKArchiveModule
       @cocoapods_flag = false
     end
 
+    def self.clean_product_dir()
+      Fastlane::UI.important("remove product direstore:#{Helper::YK_PRODUCT_ROOT_PATH}")
+      FileUtils.remove_dir(Helper::YK_PRODUCT_ROOT_PATH, force: true)
+    end
+
     def output_root_path_temp()
       if self.scheme.blank? || self.export_method.blank?
         File.expand_path(File.join(self.product_root_path, "temp_#{self.archive_time}"))
