@@ -24,6 +24,7 @@ before_all do |lane, options|
 end
 
 error do |lane, exception, options|
+  UI.import("error:#{exception}")
   clear_build_temp
   workfaild_yk(lane, exception, options)
 end
