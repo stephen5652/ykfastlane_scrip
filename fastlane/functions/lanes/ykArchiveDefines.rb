@@ -105,7 +105,7 @@ module YKArchiveModule
 
       puts("export_profile_dict:#{self.export_profile_dict}")
       skip_profile_detect = false
-      if self.export_profile_dict.blank? == false && self .export_profile_dict.count == self.bundle_identifiers.count
+      if self.export_profile_dict.blank? == false && self.export_profile_dict.count == self.bundle_identifiers.count
         export_options.update({
                                 provisioningProfiles: self.export_profile_dict
                               })
@@ -136,15 +136,19 @@ def archive_func(workspace, scheme, export_method, cocoapods)
     xcworkspace: workspace,
   )
 
+  $para_archive.scheme = scheme
+  $para_archive.workspace = workspace
+
   scheme_info = all_scheme_info[scheme]
   if scheme_info == nil
-    Fastlane::UI.user_error!("Not fount scheme[#{scheme}] from workspace:#{workspace}")
+    Fastlane::UI.important("Not fount scheme[#{scheme}] from workspace:#{workspace}")
+  else
+    $para_archive.scheme = scheme_info[:scheme_name]
+    $para_archive.workspace = scheme_info[:workspace]
+    $para_archive.bundle_identifiers = scheme_info[:bundle_identifiers]
   end
 
   $para_archive.export_method = export_method.blank? ? "enterprise" : export_method
-  $para_archive.scheme = scheme_info[:scheme_name]
-  $para_archive.workspace = scheme_info[:workspace]
-  $para_archive.bundle_identifiers = scheme_info[:bundle_identifiers]
   $para_archive.cocoapods_flag = Integer(cocoapods.blank? ? "0" : cocoapods) == 1 ? true : false
 
   profile_dict = {}
@@ -155,6 +159,7 @@ def archive_func(workspace, scheme, export_method, cocoapods)
     )
     profile_dict[one] = profile_uuid unless profile_uuid.blank?
   end
+
   puts("profiles:#{profile_dict}")
   $para_archive.export_profile_dict = profile_dict
 
@@ -164,7 +169,7 @@ def archive_func(workspace, scheme, export_method, cocoapods)
   podfile_dir = File.dirname($para_archive.workspace)
   cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false) unless $para_archive.cocoapods_flag == false
 
-  para =  $para_archive.build_parameters
+  para = $para_archive.build_parameters
   build_app(para)
   ipa_path = lane_context[:IPA_OUTPUT_PATH]
   $para_archive.ipa_path_temp = ipa_path
