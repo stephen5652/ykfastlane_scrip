@@ -147,16 +147,23 @@ module YKProfileModule
         return false
       else
         puts "git clean, start push"
-
-        begin
-          git.push('origin', curbranch)
-        rescue Git::GitExecuteError => e
-          puts "git push execption:#{e}"
-        end
-
-        Fastlane::UI.important("Git push successfully")
-        return true
+        return self.git_push
       end
+    end
+
+    def self.git_push
+      path = YKProfileGitHelper::YK_CONFIG_PROFILE_LOCAL_ROOT_DIR
+      git = Git::open(path)
+      begin
+        curbranch = git.current_branch
+        git.push('origin', curbranch)
+      rescue Git::GitExecuteError => e
+        puts "git push execption:#{e}"
+        return false
+      end
+
+      Fastlane::UI.important("Git push successfully")
+      return true
     end
 
     def self.update_profile_env_git_info(remote)

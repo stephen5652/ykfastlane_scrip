@@ -81,6 +81,18 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     command example: ykfastlane archive_tf scheme:ShuabaoQ user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note" xcworkspace:"~/Desktop/ShuaBao" cocoapods:1 flutter_directory:"flutter_directory"
 
 
+### clean_product_directory
+
+```sh
+[bundle exec] fastlane clean_product_directory
+```
+
+
+   删除iOS打包产物文件夹
+   参数:
+   wxwork_access_token: [可选] 企业微信机器人
+
+
 ### upload_ipa_to_tf
 
 ```sh
@@ -231,9 +243,10 @@ private lane, cannot be used. Just used for developing to testing some action.
 ```
 
 
-    同步git仓库中的 certificate & profile, 如果未传入git_remote_url，则执行git pull； 否则,覆盖原有的profile & certificate
+    同步git仓库中的 certificate & profile, 如果未传入
+，则执行git pull； 否则,覆盖原有的profile & certificate
     参数:
-    remote_url: profile & certificate
+    profile_remote_url: profile & certificate
 
 
 ### list_profile_certificate_config

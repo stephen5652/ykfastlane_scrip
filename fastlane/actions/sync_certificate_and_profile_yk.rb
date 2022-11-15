@@ -19,11 +19,9 @@ module Fastlane
         end
 
         result = YKProfileModule::YKProfileGitExecute.load_profile_remote()
-
         Fastlane::UI.user_error!("Sync profile remote failed") unless result == true
 
         profile_dict = YKProfileModule::YKProfileGitExecute.get_profile_info_dict()
-
         if profile_dict != nil
           profile_dict.each_pair do |name, info|
             path = YKProfileModule::YKProfileGitExecute.get_profile_path(info)

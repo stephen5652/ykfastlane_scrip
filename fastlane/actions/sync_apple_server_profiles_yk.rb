@@ -19,6 +19,10 @@ module Fastlane
         password = params[:password]
         bundle_ids = params[:bundle_ids]
 
+        #需要先拉取远端的，防止远端被别人更新了，导致push时候失败
+        result = YKProfileModule::YKProfileGitExecute.load_profile_remote()
+        Fastlane::UI.user_error!("Sync profile remote failed") unless result == true
+        
         result = YKAppleModule::AccountHelper::AccountClient.login(user, password)
         bundle_ids_str = params[:bundle_ids]
         bundle_ids_arr = bundle_ids.split(",")
