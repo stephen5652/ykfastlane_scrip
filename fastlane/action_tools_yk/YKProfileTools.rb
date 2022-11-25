@@ -190,7 +190,7 @@ module YKProfileModule
       bundle_id = YKProfileEnv.bundle_id_from_info(info)
       method = YKProfileEnv.method_type_from_info(info)
       if YKProfileEnv.date_enable_from_info(info) == false
-        Fastlane::UI.important("Skip identify expired profile to archive info:#{bundle_id}->#{method}->#{bundle_id}")
+        Fastlane::UI.important("Skip identify expired profile to archive info:#{bundle_id}->#{method}->#{uuid}")
       end
 
       YKProfileEnv.update_archive_profile_info(uuid, method, bundle_id)
