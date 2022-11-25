@@ -23,6 +23,7 @@ module Fastlane
 
         profile_dict = YKProfileModule::YKProfileGitExecute.get_profile_info_dict()
         if profile_dict != nil
+          YKProfileModule::YKProfileEnv.clear_archive_profile_info if  profile_dict.length > 0
           profile_dict.each_pair do |name, info|
             path = YKProfileModule::YKProfileGitExecute.get_profile_path(info)
             if path.blank?
