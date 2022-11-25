@@ -22,7 +22,7 @@ module Fastlane
         #需要先拉取远端的，防止远端被别人更新了，导致push时候失败
         result = YKProfileModule::YKProfileGitExecute.load_profile_remote()
         Fastlane::UI.user_error!("Sync profile remote failed") unless result == true
-        
+
         result = YKAppleModule::AccountHelper::AccountClient.login(user, password)
         bundle_ids_str = params[:bundle_ids]
         bundle_ids_arr = bundle_ids.split(",")
@@ -42,6 +42,7 @@ module Fastlane
       def self.install_catch_profiles(path_arr)
         all_info_dict = {}
         name_arr = []
+
         path_arr.each do |one|
           name = YKProfileModule::YKProfileGitExecute.add_profile(one)
           info = YKProfileModule::YKProfileEnv.install_one_profile(one)

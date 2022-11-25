@@ -76,6 +76,13 @@ module YKProfileModule
       self.bunlde_id_from_info(info)
     end
 
+    def self.date_enable_from_info(info)
+      expiration_date = info["ExpirationDate"]
+      cur_date= DateTime.now()
+      result = cur_date < expiration_date
+      result
+    end
+
     def self.bundle_id_from_info(info)
       elements = info["Entitlements"]
       bundle_id = elements["application-identifier"]
@@ -172,10 +179,20 @@ module YKProfileModule
       end
     end
 
+    def self.clear_archive_profile_info
+      path = YKProfileModule::YKProfileEnv::YK_CONFIG_PROFILE_YAML
+      FileUtils.rm_r(path) if File.exist?(path)
+      Fastlane::UI.important("Remove archive config:#{path} ")
+    end
+
     def self.update_archive_profile_info_from_info(info)
       uuid = YKProfileEnv.uuid_from_info(info)
       bundle_id = YKProfileEnv.bundle_id_from_info(info)
       method = YKProfileEnv.method_type_from_info(info)
+      if YKProfileEnv.date_enable_from_info(info) == false
+        Fastlane::UI.important("Skip identify expired profile to archive info:#{bundle_id}->#{method}->#{bundle_id}")
+      end
+
       YKProfileEnv.update_archive_profile_info(uuid, method, bundle_id)
     end
 
