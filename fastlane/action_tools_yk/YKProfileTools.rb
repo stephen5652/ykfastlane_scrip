@@ -78,7 +78,7 @@ module YKProfileModule
 
     def self.date_enable_from_info(info)
       expiration_date = info["ExpirationDate"]
-      cur_date= DateTime.now()
+      cur_date = DateTime.now()
       result = cur_date < expiration_date
       result
     end
@@ -191,6 +191,7 @@ module YKProfileModule
       method = YKProfileEnv.method_type_from_info(info)
       if YKProfileEnv.date_enable_from_info(info) == false
         Fastlane::UI.important("Skip identify expired profile to archive info:#{bundle_id}->#{method}->#{uuid}")
+        return
       end
 
       YKProfileEnv.update_archive_profile_info(uuid, method, bundle_id)
