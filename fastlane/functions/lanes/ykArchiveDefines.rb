@@ -168,6 +168,9 @@ def archive_func(workspace, scheme, export_method, cocoapods)
 
   podfile_dir = File.dirname($para_archive.workspace)
   cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false) unless $para_archive.cocoapods_flag == false
+  
+  cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false) unless $para_archive.cocoapods_flag == false
+
 
   para = $para_archive.build_parameters
   build_app(para)
