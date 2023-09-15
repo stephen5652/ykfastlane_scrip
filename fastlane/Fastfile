@@ -6,6 +6,8 @@ import "./functions/lanes/Fastfile_iosArchive.rb"
 import "./functions/lanes/YKConfigScriptEnv.rb"
 import "./functions/Fastfile_workfaild.rb"
 
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "240"
+
 before_all do |lane, options|
   fast_file_path = File.expand_path(File.dirname(__FILE__))
 
@@ -25,7 +27,7 @@ end
 
 error do |lane, exception, options|
   UI.important("error:#{exception}")
-  clear_build_temp
+  #clear_build_temp
   workfaild_yk(lane, exception, options)
 end
 
