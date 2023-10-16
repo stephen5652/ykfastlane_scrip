@@ -276,14 +276,14 @@ module YKArchiveModule
       version = ipa_info.version_build.blank? ? '' : ipa_info.version_build
       commit_id = commit_info.abbreviated_commit_hash.blank? ? '' : commit_info.abbreviated_commit_hash
       commit_des = commit_info.message.blank? ? '' : commit_info.message
-      git_branch = config_info.branch.blank? ? '' : config_info.branch
+      git_branch = commit_info.branch.blank? ? '' : commit_info.branch
       result = '' "
       note:#{note}
       version:#{version}
       archive_date:#{archive_time}
       commit_id:#{commit_id}
-      commit_message:#{commit_des}
       branch:#{git_branch}
+      commit_message:#{commit_des}
       " ''
       puts "upload_platform_release_note:\n#{result}\n\n"
       result
@@ -294,13 +294,17 @@ module YKArchiveModule
     include HTTParty
 
     def initialize
-      self.class.base_uri = YKArchiveConfig::Config.new.yk_ipa_platform_upload_url
+      self.class.base_uri YKArchiveConfig::Config.new.yk_ipa_platform_upload_url
       puts "🍉 #{self.class.base_uri}"
     end
 
-    def self.upload_ipa_platform_yk(_upload_info)
-      put('YKRequest post:')
-      post(body: { 'data' => app_list_data }.to_json)
+    def upload_ipa_platform_yk(upload_info)
+      puts("upload ipa to yk ipa-platform:#{{ 'data' => upload_info }.to_json}")
+      begin
+        result = post(body: { 'data' => upload_info }.to_json)
+      rescue StandardError
+        puts(("error:#{$!}"))
+      end
     end
   end
 end
@@ -308,7 +312,7 @@ end
 # yk ipa 分发平台
 #
 def upload_ipa_platform_yk(upload_info)
-  YKArchiveModule::YKRequest.upload_ipa_platform_yk(upload_info)
+  YKArchiveModule::YKRequest.new.upload_ipa_platform_yk(upload_info)
 end
 
 def upload_fir_func_yk(upload_info, fir_token)
