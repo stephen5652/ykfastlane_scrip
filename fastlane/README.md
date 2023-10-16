@@ -21,8 +21,8 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
     打iOS测试包,并上传蒲公英,发送结果给企业微信群
-    参数: 
-      scheme: [必需] 
+    参数:
+      scheme: [必需]
       pgyer_api: [必需] 蒲公英平台api_key
       pgyer_user[必需] 蒲公英平台 user_key
       yk_ipa_upload_api[可选] 私有ipa分发地址
@@ -46,8 +46,8 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
     打iOS测试包,并上传Fir,发送结果给企业微信群
-    参数: 
-      scheme: [必需] 
+    参数:
+      scheme: [必需]
       fir_api_token: [必需] Fir平台api token
       yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
