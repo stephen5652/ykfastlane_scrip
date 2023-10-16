@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'fastlane'
+require 'httparty'
 
 require_relative '../scriptConfig/YKArchiveConfigTools'
 
@@ -98,9 +99,9 @@ module YKArchiveModule
 
     def build_parameters()
       export_options = {
-        compileBitcode: false, #关闭bitcode rebuild
-        stripSwiftSymbols: false, #此字段是为了节省导出包的时间, 对于swift混编项目,次字段会导致到处包的时间大大延长.
-        manageAppVersionAndBuildNumber: false, #关闭apple store connect  管理build 号
+        compileBitcode: false, # 关闭bitcode rebuild
+        stripSwiftSymbols: false, # 此字段是为了节省导出包的时间, 对于swift混编项目,次字段会导致到处包的时间大大延长.
+        manageAppVersionAndBuildNumber: false, # 关闭apple store connect  管理build 号
       }
 
       puts("export_profile_dict:#{self.export_profile_dict}")
@@ -113,7 +114,7 @@ module YKArchiveModule
       end
 
       { workspace: self.workspace,
-        scheme: self.scheme, #项目名称
+        scheme: self.scheme, # 项目名称
         clean: true,
         output_name: self.scheme,
         export_method: self.export_method,
@@ -168,21 +169,20 @@ def archive_func(workspace, scheme, export_method, cocoapods)
 
   podfile_dir = File.dirname($para_archive.workspace)
   cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false) unless $para_archive.cocoapods_flag == false
-  
+
   cocoapods(verbose: true, podfile: podfile_dir, use_bundle_exec: false) unless $para_archive.cocoapods_flag == false
 
-
   para = $para_archive.build_parameters
-  build_app(para)
+  # build_app(para)
   ipa_path = lane_context[:IPA_OUTPUT_PATH]
   $para_archive.ipa_path_temp = ipa_path
 
   puts("archive finish, ipa:#{$para_archive.ipa_path_temp}")
-  analysis_ipa_yk($para_archive.ipa_path_temp)
+  # analysis_ipa_yk($para_archive.ipa_path_temp)
 
-  $para_archive.move_to_destination_path($ipa_info.version_number, $ipa_info.build_number)
-  $ipa_info.ipa_path = $para_archive.ipa_final_path($ipa_info.version_number, $ipa_info.build_number)
-  puts("ipa_info:#{$ipa_info.info_des}")
+  # $para_archive.move_to_destination_path($ipa_info.version_number, $ipa_info.build_number)
+  # $ipa_info.ipa_path = $para_archive.ipa_final_path($ipa_info.version_number, $ipa_info.build_number)
+  # puts("ipa_info:#{$ipa_info.info_des}")
   $para_archive
 end
 
@@ -237,18 +237,19 @@ end
 
 module YKArchiveModule
   class YKGitCommitInfo
-    attr_accessor :author, :author_email, :commit_hash, :abbreviated_commit_hash, :message
+    attr_accessor :author, :author_email, :commit_hash, :abbreviated_commit_hash, :message, :branch
 
     def initialize
-      author, @author_email, @commit_hash, @abbreviated_commit_hash, @message = ""
+      author, @author_email, @commit_hash, @abbreviated_commit_hash, @branch, @message = ""
     end
 
-    def config_detail(info)
+    def config_detail(info, branch)
       self.author = info[:author]
       self.author_email = info[:author_email]
       self.message = info[:message]
       self.commit_hash = info[:commit_hash]
       self.abbreviated_commit_hash = info[:abbreviated_commit_hash]
+      self.branch = info[:branch].blank? ? branch : info[:branch]
 
       self
     end
@@ -291,6 +292,28 @@ module YKArchiveModule
       result
     end
   end
+
+  class YKRequest
+    include HTTParty
+
+    def initialize()
+
+      self.class.base_uri = YKArchiveConfig::Config.new.yk_ipa_platform_upload_url
+      puts "🍉 #{self.class.base_uri}"
+    end
+
+
+    def self.upload_ipa_platform_yk(upload_info)
+      put("YKRequest post:")
+      self.post( body: { 'data' => app_list_data }.to_json)
+    end
+  end
+end
+
+# yk ipa 分发平台
+#
+def upload_ipa_platform_yk(upload_info)
+  YKArchiveModule::YKRequest.upload_ipa_platform_yk(upload_info)
 end
 
 def upload_fir_func_yk(upload_info, fir_token)
@@ -354,7 +377,7 @@ module YKArchiveModule
       @body_info = {}
     end
 
-    def config_ipa_info(title, name, version, size, commit_id, commit_msg, note, url)
+    def config_ipa_info(title, name, version, size, commit_id, commit_msg, branch, note, url)
       self.body_info.update({
                               msg_title: title,
                               msg_app_name: name,
@@ -362,6 +385,7 @@ module YKArchiveModule
                               msg_app_size: size,
                               commit_id: commit_id,
                               commit_message: commit_msg,
+                              branch: branch,
                               release_note: note.blank? ? "ios 测试包" : note,
                               msg_app_url: url,
                             })

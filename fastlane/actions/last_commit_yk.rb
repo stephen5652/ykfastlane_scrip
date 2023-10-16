@@ -11,6 +11,7 @@ module Fastlane
         result = nil
         Dir.chdir(work_path) do
           result = Actions.last_git_commit_dict
+          result[:branch] = Actions.git_branch
         end
         # sh "shellcommand ./path"
         return result
@@ -61,6 +62,7 @@ module Fastlane
           author_email: "author_email",
           commit_hash: "commit_hash",
           abbreviated_commit_hash: "short_hash",
+          branch_name: "master or null",
         }
       end
 
@@ -71,6 +73,7 @@ module Fastlane
           author = commit[:author] # author of the commit
           author_email = commit[:author_email] # email of the author of the commit
           hash = commit[:commit_hash] # long sha of commit
+          branch_name = commit[:branch_name] # branch name maybe null, once git is at tag or commit_id
           short_hash = commit[:abbreviated_commit_hash] # short sha of commit',
         ]
       end

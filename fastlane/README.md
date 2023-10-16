@@ -25,9 +25,11 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
       scheme: [必需] 
       pgyer_api: [必需] 蒲公英平台api_key
       pgyer_user[必需] 蒲公英平台 user_key
+      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
       note: [可选] 测试包发包信息
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
@@ -47,11 +49,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     参数: 
       scheme: [必需] 
       fir_api_token: [必需] Fir平台api token
+      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
       note: [可选] 测试包发包信息
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
       export: [可选] 包的类型, 包的类型, app-store, validation,ad-hoc, package, enterprise, development, developer-id, mac-application, 默认为enterprise
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
 
@@ -70,8 +74,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
       scheme: [必需]
       user_name: [必需] apple id
       pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+      yk_ipa_upload_api[可选] 私有ipa分发地址
 
       note: [可选] 测试包发包信息
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
@@ -105,8 +111,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
       ipa: [必需] ipa文件绝对路径
       user_name: [必需] apple id
       pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [可选] 企业微信机器人
       note: [可选] TF包发包信息,用以通知相关开发
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
 
     command example: ykfastlane upload_ipa_to_tf ipa:"xxxx/xxx/xx.ipa" user_name:"xxxx.com" pass_word:"xxx-xxx-xxx-xxx" wxwork_access_token:"wxworktokem" note:"note"
 

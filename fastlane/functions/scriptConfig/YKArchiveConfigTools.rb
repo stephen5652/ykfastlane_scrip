@@ -11,6 +11,7 @@ module YKArchiveConfig
 
     K_WX_ACCESS_TOKEN = :wx_access_token
     K_FIR_API_TOKEN = :fir_api_token
+    K_YK_IPA_PLATFORM_UPLOAD_URL = :yk_ipa_upload_api
 
     K_PGYER_INFO = :pgyer_info_key
     K_PGYER_USER = :pgyer_user
@@ -48,7 +49,11 @@ module YKArchiveConfig
     end
 
     def fir_token
-      self.load_config_value(K_FIR_API_TOKEN)
+      self.load_config_value(:fir)[K_FIR_API_TOKEN]
+    end
+
+    def  yk_ipa_platform_upload_url
+      self.load_config_value(K_YK_IPA_PLATFORM_UPLOAD_URL)
     end
 
     def fir_token_update(token)

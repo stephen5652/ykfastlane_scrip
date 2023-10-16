@@ -12,9 +12,11 @@ desc "" "
       scheme: [必需] 
       pgyer_api: [必需] 蒲公英平台api_key
       pgyer_user[必需] 蒲公英平台 user_key
+      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
       note: [可选] 测试包发包信息
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
@@ -25,15 +27,15 @@ desc "" "
 lane :archive_pgyer do |options|
   puts "archive_pgyer options:#{options}"
 
-  puts "archive_fire options:#{options}"
   archive_info = archive_func(options[:xcworkspace], options[:scheme], options[:export], options[:cocoapods])
 
   commit = last_commit_yk(work_path: archive_info.workspace)
-  commit_info = YKArchiveModule::YKGitCommitInfo.new().config_detail(commit)
+  commit_info = YKArchiveModule::YKGitCommitInfo.new().config_detail(commit, options[:branch_name])
 
   upload_info = YKArchiveModule::YKUploadPlatFormInfo.new().config_info($ipa_info, commit_info, archive_info.archive_time, options[:note])
 
   app_url = upload_pgyer_func_yk(upload_info, options[:pgyer_user], options[:pgyer_api])
+
 
   title = "Test app \"#{$ipa_info.display_name}\"  new version."
   token = options[:wxwork_access_token]
@@ -42,7 +44,7 @@ lane :archive_pgyer do |options|
     token = YKArchiveConfig::Config.new.wx_access_token
   end
 
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.size, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, app_url)
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.size, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, commit_info.branch, app_url)
   robot.token = token
   send_msg_to_wechat(robot, true)
 end
@@ -52,11 +54,13 @@ desc "" "
     参数: 
       scheme: [必需] 
       fir_api_token: [必需] Fir平台api token
+      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
       note: [可选] 测试包发包信息
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
       export: [可选] 包的类型, 包的类型, app-store, validation,ad-hoc, package, enterprise, development, developer-id, mac-application, 默认为enterprise
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
 
@@ -67,11 +71,12 @@ lane :archive_fir do |options|
   archive_info = archive_func(options[:xcworkspace], options[:scheme], options[:export], options[:cocoapods])
 
   commit = last_commit_yk(work_path: archive_info.workspace)
-  commit_info = YKArchiveModule::YKGitCommitInfo.new().config_detail(commit)
+  commit_info = YKArchiveModule::YKGitCommitInfo.new().config_detail(commit, options[:branch_name])
 
   upload_info = YKArchiveModule::YKUploadPlatFormInfo.new().config_info($ipa_info, commit_info, archive_info.archive_time, options[:note])
 
   fir_url = upload_fir_func_yk(upload_info, options[:fir_api_token])
+  yk_upload_result =  upload_ipa_platform_yk(upload_info)
 
   title = "Test app \"#{$ipa_info.display_name}\"  new version."
   token = options[:wxwork_access_token]
@@ -80,7 +85,7 @@ lane :archive_fir do |options|
     token = YKArchiveConfig::Config.new.wx_access_token
   end
 
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, upload_info.release_note, fir_url)
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, commit_info.branch, upload_info.release_note, fir_url)
   robot.token = token
   send_msg_to_wechat(robot, true)
 end
@@ -91,8 +96,10 @@ desc "" "
       scheme: [必需]
       user_name: [必需] apple id
       pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+      yk_ipa_upload_api[可选] 私有ipa分发地址
 
       note: [可选] 测试包发包信息
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
       flutter_directory: [可选] 如果有flutter混编, 此参数是 flutter项目的相对路径.
@@ -109,7 +116,7 @@ lane :archive_tf do |options|
   archive_info = archive_func(options[:xcworkspace], options[:scheme], options[:export], options[:cocoapods])
 
   commit = last_commit_yk(work_path: archive_info.workspace)
-  commit_info = YKArchiveModule::YKGitCommitInfo.new().config_detail(commit)
+  commit_info = YKArchiveModule::YKGitCommitInfo.new().config_detail(commit, options[:branch_name])
 
   upload_tf_result = upload_tf_func_yk($ipa_info, options[:user_name], options[:pass_word])
   title = "TF app \"#{$ipa_info.display_name}\"  new version."
@@ -119,7 +126,7 @@ lane :archive_tf do |options|
     token = YKArchiveConfig::Config.new.wx_access_token
   end
 
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, options[:note], "")
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, $ipa_info.display_name, $ipa_info.version_build, $ipa_info.size, commit_info.abbreviated_commit_hash, commit_info.message, commit_info.branch, options[:note], "")
   robot.token = token
   send_msg_to_wechat(robot, true)
 end
@@ -157,8 +164,10 @@ desc "" "
       ipa: [必需] ipa文件绝对路径
       user_name: [必需] apple id
       pass_word: [必需] apple id 专属密钥， 若需配置，请访问：https://appleid.apple.com/account/manage
+      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [可选] 企业微信机器人
       note: [可选] TF包发包信息,用以通知相关开发
+      branch_name: [可选] 分支名称，因为可能git只是浅拷贝，在项目目录使用 git 指令获取不到当前分支，所以提供了这个参数
 
     command example: ykfastlane upload_ipa_to_tf ipa:\"xxxx/xxx/xx.ipa\" user_name:\"xxxx.com\" pass_word:\"xxx-xxx-xxx-xxx\" wxwork_access_token:\"wxworktokem\" note:\"note\"
 " ""
@@ -177,7 +186,7 @@ lane :upload_ipa_to_tf do |options|
     token = YKArchiveConfig::Config.new.wx_access_token
   end
 
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, ipa_info.display_name, ipa_info.size, ipa_info.version_build, ipa_info.size, "", options[:note], "")
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, ipa_info.display_name, ipa_info.size, ipa_info.version_build, ipa_info.size, "", "", options[:note], "")
   robot.token = token
   send_msg_to_wechat(robot, true)
 end
@@ -201,7 +210,7 @@ lane :re_upload_pgyer do |options|
     title = "Test app upload failed !!"
     token = YKArchiveConfig::Config.new.wx_access_token
   end
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, ipa_info.display_name, ipa_info.version_build, ipa_info.size, "", "", "", app_url)
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, ipa_info.display_name, ipa_info.version_build, ipa_info.size, "", "", "", "", app_url)
   robot.token = token
   send_msg_to_wechat(robot, true)
 end
@@ -226,7 +235,7 @@ lane :re_upload_fir do |options|
     title = "Test app upload failed !!"
     token = YKArchiveConfig::Config.new.wx_access_token
   end
-  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, ipa_info.display_name, ipa_info.version_build, ipa_info.size, "", "", "", app_url)
+  robot = YKArchiveModule::YKWechatEnterpriseRobot.new().config_ipa_info(title, ipa_info.display_name, ipa_info.version_build, ipa_info.size, "", "", "", "", app_url)
   robot.token = token
   send_msg_to_wechat(robot, true)
 end
