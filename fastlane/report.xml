@@ -5,37 +5,52 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000299">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000479">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: analysis_xcode_workspace_yk" time="0.848913">
+      <testcase classname="fastlane.lanes" name="1: analysis_xcode_workspace_yk" time="1.299815">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: find_profile_uuid_yk" time="0.001644">
+      <testcase classname="fastlane.lanes" name="2: find_profile_uuid_yk" time="0.008934">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: find_profile_uuid_yk" time="0.001491">
+      <testcase classname="fastlane.lanes" name="3: find_profile_uuid_yk" time="0.00215">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: cocoapods" time="5.348472">
+      <testcase classname="fastlane.lanes" name="4: cocoapods" time="8.449553">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: cocoapods" time="5.411101">
+      <testcase classname="fastlane.lanes" name="5: build_app" time="431.24292">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="6: last_commit_yk" time="0.114093">
+      <testcase classname="fastlane.lanes" name="6: analyze_ios_ipa" time="4.420424">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: last_commit_yk" time="0.109181">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="8: fir_cli_yk" time="44.421188">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="9: wxwork_notifier_yk" time="0.111434">
         
       </testcase>
     
