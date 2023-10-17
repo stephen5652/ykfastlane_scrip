@@ -78,6 +78,7 @@ lane :archive_fir do |options|
                                                                       archive_info.archive_time, options[:note])
 
   fir_url = upload_fir_func_yk(upload_info, options[:fir_api_token])
+  upload_info.ipa_url = fir_url
   yk_upload_result = upload_ipa_platform_yk(upload_info)
 
   title = "Test app \"#{$ipa_info.display_name}\"  new version."

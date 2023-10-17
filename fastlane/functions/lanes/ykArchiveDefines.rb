@@ -183,10 +183,10 @@ end
 
 module YKArchiveModule
   class YKIpaInfo
-    attr_accessor :version_number, :build_number, :display_name, :size, :ipa_path
+    attr_accessor :version_number, :build_number, :display_name, :size, :ipa_path, :identifier
 
     def initialize
-      @version_number, @build_number, @display_name, @size, @ipa_path = ''
+      @version_number, @build_number, @display_name, @size, @ipa_path, @identifier = ''
     end
 
     def version_build
@@ -218,7 +218,8 @@ def analysis_ipa_yk(ipa_path)
     app_info_name: app_info_hash[:display_name].blank? ? app_info_hash[:executable] : app_info_hash[:display_name],
     app_info_buildnumber: app_info_hash[:version],
     app_info_versionnumber: app_info_hash[:short_version],
-    app_info_size: app_hash[:format_size]
+    app_info_size: app_hash[:format_size],
+    app_identifier: app_info_hash[:identifier]
   }
 
   $ipa_info.display_name = app_info_hash[:display_name].blank? ? app_info_hash[:executable] : app_info_hash[:display_name]
@@ -226,6 +227,7 @@ def analysis_ipa_yk(ipa_path)
   $ipa_info.version_number = app_info_hash[:short_version]
   $ipa_info.size = app_hash[:format_size]
   $ipa_info.ipa_path = ipa_path
+  $ipa_info.identifier = app_info_hash[:identifier]
 
   $ipa_info
 end
@@ -254,12 +256,13 @@ end
 
 module YKArchiveModule
   class YKUploadPlatFormInfo
-    attr_accessor :release_note, :ipa_info, :commit_info, :archive_time
+    attr_accessor :release_note, :ipa_info, :commit_info, :archive_time, :ipa_url
 
     def initialize
       @release_note, @archive_time = ''
       @ipa_info = YKArchiveModule::YKIpaInfo.new
       @commit_info = YKArchiveModule::YKGitCommitInfo.new
+      @ipa_url = ""
     end
 
     def config_info(ipa_info, commit_info, archive_time, note)
@@ -269,6 +272,30 @@ module YKArchiveModule
       self.release_note = note.blank? ? 'ios 测试包' : note
 
       self
+    end
+
+    def upload_yk_map
+      {
+        "app_name": ipa_info.display_name.blank? ? '' : ipa_info.display_name,
+        # "app_icon":ipa_info.display_name.blank? ?  '' :  ipa_info.display_name,
+        "gitlab_url": "",
+        "bundleId": ipa_info.identifier.blank? ? '' : ipa_info.identifier,
+        # "app_type":"",
+        "app_version": ipa_info.version_number.blank? ? '' : ipa_info.version_number,
+        "app_buildNum": ipa_info.build_number.blank? ? '' : ipa_info.build_number,
+        "operateTime": archive_time.blank? ? '' : archive_time,
+        "downloadURL_in": '',
+        "downloadURL_out": ipa_url.blank? ? '' : ipa_url,
+        "git_branch": commit_info.branch.blank? ? '' : commit_info.branch,
+        # git commit_id 缩短版
+        "git_commitId": commit_info.abbreviated_commit_hash.blank? ? '' : commit_info.abbreviated_commit_hash,
+        "git_updateTime": "",
+        "operator": "",
+        "git_committer": commit_info.author.blank? ? '' : commit_info.author,
+        "release_note": release_note.blank? ? 'ios 测试包' : release_note,
+        "git_commitDescription": commit_info.message.blank? ? '' : commit_info.message,
+      }
+
     end
 
     def platform_release_note
@@ -292,6 +319,7 @@ module YKArchiveModule
 
   class YKRequest
     include HTTParty
+    headers 'Content-Type' => 'application/json'
 
     def initialize
       self.class.base_uri YKArchiveConfig::Config.new.yk_ipa_platform_upload_url
@@ -299,9 +327,10 @@ module YKArchiveModule
     end
 
     def upload_ipa_platform_yk(upload_info)
-      puts("upload ipa to yk ipa-platform:#{{ 'data' => upload_info }.to_json}")
+      puts("upload ipa to yk ipa-platform:#{ upload_info.upload_yk_map.to_json }")
       begin
-        result = post(body: { 'data' => upload_info }.to_json)
+        result = self.class.post("", body: upload_info.upload_yk_map.to_json)
+        puts "upload  yk server  result: #{result}"
       rescue StandardError
         puts(("error:#{$!}"))
       end
