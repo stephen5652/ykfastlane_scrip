@@ -1049,97 +1049,76 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="fastlane (v[path]) [path][gem]" type="rubylib">
+      <library name="fastlane (v2.216.0) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
         </properties>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../fastlane/bin" />
-          <root url="file://$MODULE_DIR$/../fastlane/gym" />
-          <root url="file://$MODULE_DIR$/../fastlane/pem" />
-          <root url="file://$MODULE_DIR$/../fastlane/.git" />
-          <root url="file://$MODULE_DIR$/../fastlane/cert" />
-          <root url="file://$MODULE_DIR$/../fastlane/scan" />
-          <root url="file://$MODULE_DIR$/../fastlane/sigh" />
-          <root url="file://$MODULE_DIR$/../fastlane/match" />
-          <root url="file://$MODULE_DIR$/../fastlane/pilot" />
-          <root url="file://$MODULE_DIR$/../fastlane/supply" />
-          <root url="file://$MODULE_DIR$/../fastlane/.assets" />
-          <root url="file://$MODULE_DIR$/../fastlane/.github" />
-          <root url="file://$MODULE_DIR$/../fastlane/deliver" />
-          <root url="file://$MODULE_DIR$/../fastlane/frameit" />
-          <root url="file://$MODULE_DIR$/../fastlane/produce" />
-          <root url="file://$MODULE_DIR$/../fastlane/rakelib" />
-          <root url="file://$MODULE_DIR$/../fastlane/rubocop" />
-          <root url="file://$MODULE_DIR$/../fastlane/trainer" />
-          <root url="file://$MODULE_DIR$/../fastlane/fastlane" />
-          <root url="file://$MODULE_DIR$/../fastlane/precheck" />
-          <root url="file://$MODULE_DIR$/../fastlane/snapshot" />
-          <root url="file://$MODULE_DIR$/../fastlane/.circleci" />
-          <root url="file://$MODULE_DIR$/../fastlane/spaceship" />
-          <root url="file://$MODULE_DIR$/../fastlane/screengrab" />
-          <root url="file://$MODULE_DIR$/../fastlane/test_modules" />
-          <root url="file://$MODULE_DIR$/../fastlane/fastlane_core" />
-          <root url="file://$MODULE_DIR$/../fastlane/credentials_manager" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/gym" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/pem" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/cert" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/scan" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/sigh" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/match" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/pilot" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/supply" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/deliver" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/frameit" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/produce" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/trainer" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/fastlane" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/precheck" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/snapshot" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/spaceship" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/screengrab" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/fastlane_core" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/credentials_manager" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../fastlane/bin" />
-          <root url="file://$MODULE_DIR$/../fastlane/gym" />
-          <root url="file://$MODULE_DIR$/../fastlane/pem" />
-          <root url="file://$MODULE_DIR$/../fastlane/.git" />
-          <root url="file://$MODULE_DIR$/../fastlane/cert" />
-          <root url="file://$MODULE_DIR$/../fastlane/scan" />
-          <root url="file://$MODULE_DIR$/../fastlane/sigh" />
-          <root url="file://$MODULE_DIR$/../fastlane/match" />
-          <root url="file://$MODULE_DIR$/../fastlane/pilot" />
-          <root url="file://$MODULE_DIR$/../fastlane/supply" />
-          <root url="file://$MODULE_DIR$/../fastlane/.assets" />
-          <root url="file://$MODULE_DIR$/../fastlane/.github" />
-          <root url="file://$MODULE_DIR$/../fastlane/deliver" />
-          <root url="file://$MODULE_DIR$/../fastlane/frameit" />
-          <root url="file://$MODULE_DIR$/../fastlane/produce" />
-          <root url="file://$MODULE_DIR$/../fastlane/rakelib" />
-          <root url="file://$MODULE_DIR$/../fastlane/rubocop" />
-          <root url="file://$MODULE_DIR$/../fastlane/trainer" />
-          <root url="file://$MODULE_DIR$/../fastlane/fastlane" />
-          <root url="file://$MODULE_DIR$/../fastlane/precheck" />
-          <root url="file://$MODULE_DIR$/../fastlane/snapshot" />
-          <root url="file://$MODULE_DIR$/../fastlane/.circleci" />
-          <root url="file://$MODULE_DIR$/../fastlane/spaceship" />
-          <root url="file://$MODULE_DIR$/../fastlane/screengrab" />
-          <root url="file://$MODULE_DIR$/../fastlane/test_modules" />
-          <root url="file://$MODULE_DIR$/../fastlane/fastlane_core" />
-          <root url="file://$MODULE_DIR$/../fastlane/credentials_manager" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/gym" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/pem" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/cert" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/scan" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/sigh" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/match" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/pilot" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/supply" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/deliver" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/frameit" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/produce" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/trainer" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/fastlane" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/precheck" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/snapshot" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/spaceship" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/screengrab" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/fastlane_core" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/credentials_manager" />
         </SOURCES>
         <excluded>
-          <root url="file://$MODULE_DIR$/../fastlane/bin" />
-          <root url="file://$MODULE_DIR$/../fastlane/gym" />
-          <root url="file://$MODULE_DIR$/../fastlane/pem" />
-          <root url="file://$MODULE_DIR$/../fastlane/.git" />
-          <root url="file://$MODULE_DIR$/../fastlane/cert" />
-          <root url="file://$MODULE_DIR$/../fastlane/scan" />
-          <root url="file://$MODULE_DIR$/../fastlane/sigh" />
-          <root url="file://$MODULE_DIR$/../fastlane/match" />
-          <root url="file://$MODULE_DIR$/../fastlane/pilot" />
-          <root url="file://$MODULE_DIR$/../fastlane/supply" />
-          <root url="file://$MODULE_DIR$/../fastlane/.assets" />
-          <root url="file://$MODULE_DIR$/../fastlane/.github" />
-          <root url="file://$MODULE_DIR$/../fastlane/deliver" />
-          <root url="file://$MODULE_DIR$/../fastlane/frameit" />
-          <root url="file://$MODULE_DIR$/../fastlane/produce" />
-          <root url="file://$MODULE_DIR$/../fastlane/rakelib" />
-          <root url="file://$MODULE_DIR$/../fastlane/rubocop" />
-          <root url="file://$MODULE_DIR$/../fastlane/trainer" />
-          <root url="file://$MODULE_DIR$/../fastlane/fastlane" />
-          <root url="file://$MODULE_DIR$/../fastlane/precheck" />
-          <root url="file://$MODULE_DIR$/../fastlane/snapshot" />
-          <root url="file://$MODULE_DIR$/../fastlane/.circleci" />
-          <root url="file://$MODULE_DIR$/../fastlane/spaceship" />
-          <root url="file://$MODULE_DIR$/../fastlane/screengrab" />
-          <root url="file://$MODULE_DIR$/../fastlane/test_modules" />
-          <root url="file://$MODULE_DIR$/../fastlane/fastlane_core" />
-          <root url="file://$MODULE_DIR$/../fastlane/credentials_manager" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/gym" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/pem" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/cert" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/scan" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/sigh" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/match" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/pilot" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/supply" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/deliver" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/frameit" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/produce" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/trainer" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/fastlane" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/precheck" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/snapshot" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/spaceship" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/screengrab" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/fastlane_core" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/2.7.0/gems/fastlane-2.216.0/credentials_manager" />
         </excluded>
       </library>
     </orderEntry>

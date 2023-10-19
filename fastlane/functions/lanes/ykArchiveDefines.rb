@@ -241,13 +241,14 @@ module YKArchiveModule
     end
 
     def config_detail(info, branch)
-      self.author = info[:author]
-      self.author_email = info[:author_email]
-      self.message = info[:message]
-      self.commit_hash = info[:commit_hash]
-      self.abbreviated_commit_hash = info[:abbreviated_commit_hash]
-
-      self.branch = info[:branch].blank? ? branch : info[:branch]
+      if info.blank? == false
+        self.author = info[:author]
+        self.author_email = info[:author_email]
+        self.message = info[:message]
+        self.commit_hash = info[:commit_hash]
+        self.abbreviated_commit_hash = info[:abbreviated_commit_hash]
+        self.branch = info[:branch].blank? ? branch : info[:branch]
+      end
 
       self
     end
@@ -256,13 +257,14 @@ end
 
 module YKArchiveModule
   class YKUploadPlatFormInfo
-    attr_accessor :release_note, :ipa_info, :commit_info, :archive_time, :ipa_url
+    attr_accessor :release_note, :ipa_info, :commit_info, :archive_time, :ipa_url, :ipa_yk_url
 
     def initialize
       @release_note, @archive_time = ''
       @ipa_info = YKArchiveModule::YKIpaInfo.new
       @commit_info = YKArchiveModule::YKGitCommitInfo.new
       @ipa_url = ""
+      @ipa_yk_url = ""
     end
 
     def config_info(ipa_info, commit_info, archive_time, note)
@@ -284,7 +286,7 @@ module YKArchiveModule
         "app_version": ipa_info.version_number.blank? ? '' : ipa_info.version_number,
         "app_buildNum": ipa_info.build_number.blank? ? '' : ipa_info.build_number,
         "operateTime": archive_time.blank? ? '' : archive_time,
-        "downloadURL_in": '',
+        "downloadURL_in": ipa_yk_url.blank? ? '' : ipa_yk_url,
         "downloadURL_out": ipa_url.blank? ? '' : ipa_url,
         "git_branch": commit_info.branch.blank? ? '' : commit_info.branch,
         # git commit_id 缩短版
@@ -296,6 +298,15 @@ module YKArchiveModule
         "git_commitDescription": commit_info.message.blank? ? '' : commit_info.message,
       }
 
+    end
+
+    def upload_yk_ipa_plist_map
+      {
+        'app_name': ipa_info.display_name.blank? ? '' : ipa_info.display_name,
+        'bundleId': ipa_info.identifier.blank? ? '' : ipa_info.identifier,
+        'app_version': ipa_info.version_number.blank? ? '' : ipa_info.version_number,
+        'file': File.open(ipa_info.ipa_path)
+      }
     end
 
     def platform_release_note
@@ -319,22 +330,51 @@ module YKArchiveModule
 
   class YKRequest
     include HTTParty
-    headers 'Content-Type' => 'application/json'
 
     def initialize
       self.class.base_uri YKArchiveConfig::Config.new.yk_ipa_platform_upload_url
+      # self.class.base_uri  "http://127.0.0.1:3033"
       puts "🍉 #{self.class.base_uri}"
     end
 
     def upload_ipa_platform_yk(upload_info)
+      # https://t-appserver.lepass.cn/ipaServer/uploadAppPackageInfo
       puts("upload ipa to yk ipa-platform:#{ upload_info.upload_yk_map.to_json }")
       begin
-        result = self.class.post("", body: upload_info.upload_yk_map.to_json)
+        # result = self.class.post("/uploadAppPackageInfo", body: upload_info.upload_yk_map.to_json)
+        result = self.class.post(
+          "/uploadAppPackageInfo",
+          {
+            :headers => { "Content-Type" => "application/json", "Accept" => "application/json" },
+            :body => upload_info.upload_yk_map.to_json,
+          }
+        )
         puts "upload  yk server  result: #{result}"
       rescue StandardError
         puts(("error:#{$!}"))
       end
     end
+
+    def upload_ipa_save_server_yk(upload_info)
+      # https://t-appserver.lepass.cn/ipaServer/upload
+      puts("upload ipa to yk ipa-file-server:#{ upload_info.upload_yk_ipa_plist_map.to_json }")
+      begin
+        result = self.class.post(
+          "/upload",
+          {
+            :headers => { "Content-Type" => "multipart/form-data", "Accept" => "application/json" },
+            :body => upload_info.upload_yk_ipa_plist_map,
+            :timeout => 300 # 设置超时时间为120秒（以秒为单位）
+          }
+        )
+        puts "upload  yk ipa file server result: #{result}"
+        result
+      rescue StandardError
+        puts(("error:#{$!}"))
+        ""
+      end
+    end
+
   end
 end
 
@@ -342,6 +382,10 @@ end
 #
 def upload_ipa_platform_yk(upload_info)
   YKArchiveModule::YKRequest.new.upload_ipa_platform_yk(upload_info)
+end
+
+def upload_ipa_save_server_yk(upload_info)
+  YKArchiveModule::YKRequest.new.upload_ipa_save_server_yk(upload_info)
 end
 
 def upload_fir_func_yk(upload_info, fir_token)

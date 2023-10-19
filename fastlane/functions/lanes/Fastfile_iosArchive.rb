@@ -55,9 +55,9 @@ desc '' "
     参数:
       scheme: [必需]
       fir_api_token: [必需] Fir平台api token
-      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
+      upload_ykipa_server: [可选] 是否上传yk ipa包平台，默认为 0
       note: [可选] 测试包发包信息
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
@@ -79,6 +79,14 @@ lane :archive_fir do |options|
 
   fir_url = upload_fir_func_yk(upload_info, options[:fir_api_token])
   upload_info.ipa_url = fir_url
+
+  # 上传 yk ipa 平台
+  upload_ykipa_server = options[:upload_ykipa_server].blank? ? 0 : options[:upload_ykipa_server]
+  if upload_ykipa_server != 0
+    yk_ipa_url = upload_ipa_save_server_yk(upload_info)
+    upload_info.ipa_yk_url = yk_ipa_url
+  end
+
   yk_upload_result = upload_ipa_platform_yk(upload_info)
 
   title = "Test app \"#{$ipa_info.display_name}\"  new version."
@@ -257,4 +265,32 @@ lane :test_lane do |options|
   Dir.chdir(@script_run_path) do
     archive_lane_yk(options)
   end
+end
+
+desc '' "
+    打iOS测试包,并上传Fir,发送结果给企业微信群
+    参数:
+      ipa:  [必需] ipa问价绝对路径
+      ykipa_save: [可选] 是否上传ykipa存储平台, 默认 0
+    command example: ykfastlane test_upload_to_ykipa_server ipa:\"/Users/chris/iosYeahArchive/GoodBusinessQ/GoodBusinessQ_3.3.6_1_enterprise_20231019_1416/output/GoodBusinessQ.ipa\"
+" ''
+lane :test_upload_to_ykipa_server do |options|
+
+  shoule_upload_ykipa = options[:ykipa_save]
+  ipa = options[:ipa]
+  if ipa.blank?
+    puts "no ipa file, work finish"
+    return false
+  end
+
+  ipa_detail = analysis_ipa_yk(ipa)
+
+  puts("ipa_info:#{ipa_detail.info_des}")
+  commit_info = YKArchiveModule::YKGitCommitInfo.new.config_detail(nil, nil)
+
+  upload_info = YKArchiveModule::YKUploadPlatFormInfo.new.config_info(ipa_detail, commit_info, '', '测试ipa 存储接口')
+
+  upload_info.ipa_url = ''
+  yk_upload_result = upload_ipa_save_server_yk(upload_info)
+  puts "upload finish:  #{yk_upload_result}"
 end

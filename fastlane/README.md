@@ -161,6 +161,20 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 private lane, cannot be used. Just used for developing to testing some action.
 
+### test_upload_to_ykipa_server
+
+```sh
+[bundle exec] fastlane test_upload_to_ykipa_server
+```
+
+
+    打iOS测试包,并上传Fir,发送结果给企业微信群
+    参数:
+      ipa:  [必需] ipa问价绝对路径
+      ykipa_save: [可选] 是否上传ykipa存储平台, 默认 0
+    command example: ykfastlane test_upload_to_ykipa_server ipa:"/Users/chris/iosYeahArchive/GoodBusinessQ/GoodBusinessQ_3.3.6_1_enterprise_20231019_1416/output/GoodBusinessQ.ipa"
+
+
 ### update_archive_env
 
 ```sh
