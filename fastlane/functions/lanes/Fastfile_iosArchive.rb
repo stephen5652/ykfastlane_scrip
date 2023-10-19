@@ -12,7 +12,7 @@ desc '' "
       scheme: [必需]
       pgyer_api: [必需] 蒲公英平台api_key
       pgyer_user[必需] 蒲公英平台 user_key
-      yk_ipa_upload_api[可选] 私有ipa分发地址
+      yk_ipa_upload_api[可选] 私有ipa分发地址   false/true
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
       note: [可选] 测试包发包信息
@@ -57,7 +57,7 @@ desc '' "
       fir_api_token: [必需] Fir平台api token
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
-      upload_ykipa_server: [可选] 是否上传yk ipa包平台，默认为 0
+      upload_ykipa_server: [可选] 是否上传yk ipa包平台，默认为 false     true/false
       note: [可选] 测试包发包信息
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
@@ -81,8 +81,8 @@ lane :archive_fir do |options|
   upload_info.ipa_url = fir_url
 
   # 上传 yk ipa 平台
-  upload_ykipa_server = options[:upload_ykipa_server].blank? ? 0 : options[:upload_ykipa_server]
-  if upload_ykipa_server != 0
+  upload_ykipa_server = options[:upload_ykipa_server].blank? ? false : options[:upload_ykipa_server]
+  if upload_ykipa_server != false
     yk_ipa_url = upload_ipa_save_server_yk(upload_info)
     upload_info.ipa_yk_url = yk_ipa_url
   end
