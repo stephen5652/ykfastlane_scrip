@@ -276,6 +276,12 @@ desc '' "
 " ''
 lane :test_upload_to_ykipa_server do |options|
 
+  test_url = 'item-services://?action=downloadmanifest&url=https://t-appserver.lepass.cn/file/download/ipaServer-ShuabaoQ.ipa.plist'
+  dict = {
+    "downloadURL_in" => test_url.blank? ? '' : test_url,
+  }
+  puts("map: #{dict.to_json}")
+
   shoule_upload_ykipa = options[:ykipa_save]
   ipa = options[:ipa]
   if ipa.blank?
@@ -292,5 +298,9 @@ lane :test_upload_to_ykipa_server do |options|
 
   upload_info.ipa_url = ''
   yk_upload_result = upload_ipa_save_server_yk(upload_info)
+
+  yk_upload_result = 'https://t-appserver.lepass.cn/file/download/ipaServer-GoodBusinessQ.ipa.plist'
+  upload_info.ipa_yk_url = yk_upload_result
+  yk_upload_result = upload_ipa_platform_yk(upload_info)
   puts "upload finish:  #{yk_upload_result}"
 end

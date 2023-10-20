@@ -339,14 +339,16 @@ module YKArchiveModule
 
     def upload_ipa_platform_yk(upload_info)
       # https://t-appserver.lepass.cn/ipaServer/uploadAppPackageInfo
-      puts("upload ipa to yk ipa-platform:#{ upload_info.upload_yk_map.to_json }")
+      puts "start upload ipa info to yk ipa-platform"
+      para = upload_info.upload_yk_map
+      puts("upload ipa to yk ipa-platform:#{JSON.generate(para) }")
       begin
         # result = self.class.post("/uploadAppPackageInfo", body: upload_info.upload_yk_map.to_json)
         result = self.class.post(
           "/uploadAppPackageInfo",
           {
             :headers => { "Content-Type" => "application/json", "Accept" => "application/json" },
-            :body => upload_info.upload_yk_map.to_json,
+            :body => JSON.generate(para),
           }
         )
         puts "upload  yk server  result: #{result}"
@@ -368,10 +370,17 @@ module YKArchiveModule
           }
         )
         puts "upload  yk ipa file server result: #{result}"
-        result
+        if result.code == 200
+          puts "ipa 上传成功 ipa_url： #{result.body}"
+          return result.body
+        else
+          puts "ipa 上传失败  Code： #{result.code}"
+          return ""
+        end
+
       rescue StandardError
         puts(("error:#{$!}"))
-        ""
+        return  ""
       end
     end
 
