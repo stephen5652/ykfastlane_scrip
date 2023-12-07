@@ -174,7 +174,7 @@ msg_picurl
           FastlaneCore::ConfigItem.new(key: :branch,
                                        description: "git分支名称", # a short description of this parameter
                                        is_string: true,
-                                       optional: false),
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :release_note,
                                        description: "发版信息", # a short description of this parameter
                                        is_string: true,

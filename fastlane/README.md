@@ -25,7 +25,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
       scheme: [必需]
       pgyer_api: [必需] 蒲公英平台api_key
       pgyer_user[必需] 蒲公英平台 user_key
-      yk_ipa_upload_api[可选] 私有ipa分发地址
+      yk_ipa_upload_api[可选] 私有ipa分发地址   false/true
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
       note: [可选] 测试包发包信息
@@ -49,9 +49,9 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
     参数:
       scheme: [必需]
       fir_api_token: [必需] Fir平台api token
-      yk_ipa_upload_api[可选] 私有ipa分发地址
       wxwork_access_token: [必需] 企业微信机器人 webhook中的key字段
 
+      upload_ykipa_server: [可选] 是否上传yk ipa包平台，默认为 false     true/false
       note: [可选] 测试包发包信息
       xcworkspace: [可选] .xcworkspace 文件相对于指令工作目录的相对路径
       cocoapods: [可选] 0 / 1  是否需要执行pod install, 默认不执行pod install 指令
