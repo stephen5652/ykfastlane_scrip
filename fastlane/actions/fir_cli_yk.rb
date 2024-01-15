@@ -62,8 +62,10 @@ module Fastlane
         #  :short=>"6zjg"}
         #http://d.firim.top/6zjg?release_id=6177675123389f49a6e82a09
 
-        down_load_url = "http://fir.qomg.fun/" + answer[:short]
-        down_load_url += "?release_id=#{answer[:release_id]}" unless params[:need_release_id].blank?
+        # down_load_url = "http://fir.qomg.fun/" + answer[:short]
+        # down_load_url += "?release_id=#{answer[:release_id]}" unless params[:need_release_id].blank?
+
+        down_load_url = answer[:download_url]
 
         Actions.lane_context[SharedValues::YK_FIR_DOWN_URL] = down_load_url
         Actions.lane_context[SharedValues::YK_FIR_UPDATE_MSG] = params[:changelog]
